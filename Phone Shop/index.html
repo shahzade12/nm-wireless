@@ -1,0 +1,1727 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NM Wireless — Your Device. Elevated.</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Josefin+Sans:wght@100;200;300;400&family=Cormorant+Garamond:ital,wght@1,300&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --black: #F5F5F0;
+            --deep: #EEEDE8;
+            --card: #FFFFFF;
+            --card2: #F0EFE9;
+            --violet: #B87FFF;
+            --vglow: rgba(184, 127, 255, 0.12);
+            --white: #1A1A18;
+            --gray: #6B6860;
+            --border: rgba(120, 80, 180, 0.18);
+        }
+
+        body {
+            background: var(--black);
+            color: var(--white);
+            font-family: 'Josefin Sans', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* INTRO */
+        #intro {
+            position: fixed;
+            inset: 0;
+            background: #F5F5F0;
+            z-index: 9000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #intro.done {
+            animation: intro-out .9s ease forwards;
+        }
+
+        @keyframes intro-out {
+            to {
+                opacity: 0;
+                pointer-events: none;
+            }
+        }
+
+        #intro-rings {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .i-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(130, 60, 220, .3);
+            transform: scale(0);
+            opacity: 0;
+            animation: ring-pop 2.5s ease-out forwards;
+        }
+
+        @keyframes ring-pop {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: .6;
+            }
+        }
+
+        #intro-flash {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, rgba(150, 80, 255, .25), transparent 60%);
+            opacity: 0;
+            pointer-events: none;
+            animation: flash-hit .5s 1.1s ease-out forwards;
+        }
+
+        @keyframes flash-hit {
+            0% {
+                opacity: 0;
+                transform: scale(.8);
+            }
+
+            40% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(1.3);
+            }
+        }
+
+        #intro-logo {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(139, 63, 232, 0.06);
+            padding: 2rem 3rem;
+            border-radius: 8px;
+            box-shadow: 0 8px 48px rgba(139, 63, 232, 0.18), 0 2px 16px rgba(139, 63, 232, 0.12);
+        }
+
+        #intro-crown-wrap {
+            opacity: 0;
+            animation: crown-drop 1s .9s cubic-bezier(.16, 1, .3, 1) forwards, crown-pulse 3s 2.2s ease-in-out infinite;
+        }
+
+        @keyframes crown-drop {
+            0% {
+                opacity: 0;
+                transform: translateY(-24px) scale(.8);
+            }
+
+            60% {
+                opacity: 1;
+                transform: translateY(5px) scale(1.06);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes crown-pulse {
+
+            0%,
+            100% {
+                filter: drop-shadow(0 0 6px rgba(184, 127, 255, .5));
+            }
+
+            50% {
+                filter: drop-shadow(0 0 20px rgba(210, 170, 255, .95));
+            }
+        }
+
+        #intro-wordmark {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 16px;
+        }
+
+        #intro-aura {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: clamp(28px, 5vw, 48px);
+            letter-spacing: .2em;
+            text-indent: .2em;
+            color: transparent;
+            line-height: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #intro-aura::after {
+            content: 'NM';
+            position: absolute;
+            inset: 0;
+            text-indent: .2em;
+            color: #8B3FE8;
+            text-shadow: 0 0 40px rgba(139, 63, 232, .5), 0 2px 16px rgba(139, 63, 232, .3);
+            clip-path: inset(0 100% 0 0);
+            animation: text-wipe 1s 1.6s cubic-bezier(.77, 0, .18, 1) forwards;
+        }
+
+        @keyframes text-wipe {
+            from {
+                clip-path: inset(0 100% 0 0);
+            }
+
+            to {
+                clip-path: inset(0 0% 0 0);
+            }
+        }
+
+        #intro-rule {
+            width: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(184, 127, 255, .45), transparent);
+            margin: 12px 0 10px;
+            animation: rule-grow .8s 2.5s ease forwards;
+        }
+
+        @keyframes rule-grow {
+            to {
+                width: 200px;
+            }
+        }
+
+        #intro-tech {
+            font-family: 'Josefin Sans', sans-serif;
+            font-weight: 200;
+            font-size: 10px;
+            letter-spacing: .6em;
+            text-indent: .6em;
+            color: #B87FFF;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fade-in .8s 2.8s ease forwards;
+        }
+
+        #intro-tagline {
+            font-family: 'Josefin Sans', sans-serif;
+            font-weight: 100;
+            font-size: 8px;
+            letter-spacing: .45em;
+            text-indent: .45em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0);
+            margin-top: 12px;
+            animation: tagline-in 1s 3.3s ease forwards;
+        }
+
+        @keyframes tagline-in {
+            to {
+                color: rgba(255, 255, 255, .18);
+            }
+        }
+
+        @keyframes fade-in {
+            to {
+                opacity: 1;
+            }
+        }
+
+        #intro-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 1px;
+            width: 0;
+            background: linear-gradient(to right, rgba(184, 127, 255, .3), rgba(210, 170, 255, .7));
+            animation: prog-fill 4.5s .3s linear forwards;
+        }
+
+        @keyframes prog-fill {
+            to {
+                width: 100%;
+            }
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 500;
+            padding: 1.2rem 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            background: rgba(245, 245, 240, 0.92);
+            backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border);
+            transition: padding .3s;
+        }
+
+        nav.scrolled {
+            padding: .9rem 3rem;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: .7rem;
+            text-decoration: none;
+            background: rgba(139, 63, 232, 0.07);
+            padding: .35rem .7rem .35rem .5rem;
+            border-radius: 4px;
+            box-shadow: 0 2px 18px rgba(139, 63, 232, 0.18), 0 1px 6px rgba(139, 63, 232, 0.12);
+        }
+
+        .nav-logo-text {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: .85rem;
+            letter-spacing: .12em;
+            text-indent: .12em;
+            color: #8B3FE8;
+            text-shadow: 0 1px 8px rgba(139, 63, 232, 0.25);
+        }
+
+        .nav-logo-text span {
+            color: #B87FFF;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.6rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-size: .6rem;
+            font-weight: 200;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: var(--gray);
+            text-decoration: none;
+            transition: color .2s;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--white);
+        }
+
+        .nav-links .nav-book {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--violet);
+            padding: .48rem 1.1rem;
+            font-size: .6rem;
+            font-weight: 300;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 2px;
+            white-space: nowrap;
+            transition: background .25s, color .25s, box-shadow .25s;
+        }
+
+        .nav-links .nav-book:hover {
+            background: var(--violet);
+            color: var(--black);
+            box-shadow: 0 0 28px rgba(184, 127, 255, .4);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            flex-shrink: 0;
+        }
+
+        .hamburger span {
+            width: 22px;
+            height: 1.5px;
+            background: #1A1A18;
+            display: block;
+            transition: transform .3s, opacity .3s;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            padding: 0 4rem;
+            position: relative;
+            overflow: hidden;
+            gap: 2rem;
+        }
+
+        .hero-left {
+            position: relative;
+            z-index: 2;
+            padding-top: 5rem;
+        }
+
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(120, 80, 180, .06) 1px, transparent 1px), linear-gradient(90deg, rgba(120, 80, 180, .06) 1px, transparent 1px);
+            background-size: 80px 80px;
+            mask-image: radial-gradient(ellipse at 30% 50%, black 20%, transparent 72%);
+        }
+
+        .hero-eyebrow {
+            font-size: .65rem;
+            font-weight: 200;
+            letter-spacing: .35em;
+            text-transform: uppercase;
+            color: var(--violet);
+            margin-bottom: 1.6rem;
+            display: flex;
+            align-items: center;
+            gap: .8rem;
+            opacity: 0;
+            animation: fadeUp .8s .2s ease forwards;
+        }
+
+        .hero-eyebrow::before {
+            content: '';
+            width: 24px;
+            height: 1px;
+            background: var(--violet);
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: clamp(3rem, 6vw, 7rem);
+            line-height: .93;
+            letter-spacing: .01em;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeUp .8s .35s ease forwards;
+        }
+
+        .hero-title em {
+            font-style: italic;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(130, 60, 220, .75);
+        }
+
+        .hero-sub {
+            font-size: .95rem;
+            font-weight: 200;
+            color: #555250;
+            max-width: 400px;
+            line-height: 1.85;
+            letter-spacing: .05em;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeUp .8s .5s ease forwards;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 1.2rem;
+            opacity: 0;
+            animation: fadeUp .8s .65s ease forwards;
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 2.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: .5rem;
+            opacity: 0;
+            animation: fadeUp .8s 1s ease forwards;
+        }
+
+        .hero-scroll span {
+            font-size: .58rem;
+            letter-spacing: .22em;
+            text-transform: uppercase;
+            color: var(--gray);
+            font-weight: 200;
+        }
+
+        .scroll-bar {
+            width: 1px;
+            height: 48px;
+            background: linear-gradient(to bottom, var(--violet), transparent);
+            animation: spulse 2s ease-in-out infinite;
+        }
+
+        @keyframes spulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scaleY(1);
+            }
+
+            50% {
+                opacity: .3;
+                transform: scaleY(.6);
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(26px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 3D PHONE AREA */
+        .hero-right {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        #phone-canvas {
+            width: 100%;
+            height: 520px;
+            display: block;
+        }
+
+        .phone-badge {
+            position: absolute;
+            background: rgba(10, 8, 22, 0.92);
+            border: 1px solid var(--border);
+            padding: .75rem 1.1rem;
+            backdrop-filter: blur(10px);
+            animation: badge-float ease-in-out infinite;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .pb-1 {
+            top: 12%;
+            right: -10px;
+            animation-duration: 4s;
+        }
+
+        .pb-2 {
+            bottom: 18%;
+            right: 0;
+            animation-duration: 5s;
+            animation-delay: 1s;
+        }
+
+        .pb-3 {
+            top: 42%;
+            left: -10px;
+            animation-duration: 4.5s;
+            animation-delay: .5s;
+        }
+
+        @keyframes badge-float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .badge-icon {
+            font-size: 1.1rem;
+            margin-bottom: .25rem;
+        }
+
+        .badge-title {
+            font-size: .7rem;
+            font-weight: 300;
+            letter-spacing: .08em;
+            color: var(--white);
+        }
+
+        .badge-sub {
+            font-size: .58rem;
+            color: var(--violet);
+            font-weight: 200;
+            letter-spacing: .06em;
+            margin-top: .1rem;
+        }
+
+        /* BUTTONS */
+        .btn-primary {
+            background: var(--violet);
+            color: var(--black);
+            padding: 1rem 2.8rem;
+            border-radius: 2px;
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: .72rem;
+            font-weight: 400;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            box-shadow: 0 0 36px rgba(184, 127, 255, .35);
+            transition: transform .3s, box-shadow .2s;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, .18);
+            transform: translateX(-100%);
+            transition: transform .5s ease;
+        }
+
+        .btn-primary:hover::after {
+            transform: translateX(100%);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 56px rgba(184, 127, 255, .55);
+        }
+
+        .btn-ghost {
+            color: var(--white);
+            padding: 1rem 2.2rem;
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: .72rem;
+            font-weight: 200;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: border-color .2s, color .2s;
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--violet);
+            color: var(--violet);
+        }
+
+        /* SHARED */
+        .sec-label {
+            font-size: .62rem;
+            font-weight: 300;
+            letter-spacing: .3em;
+            text-transform: uppercase;
+            color: var(--violet);
+            display: flex;
+            align-items: center;
+            gap: .7rem;
+            margin-bottom: .8rem;
+        }
+
+        .sec-label::before {
+            content: '';
+            width: 18px;
+            height: 1px;
+            background: var(--violet);
+        }
+
+        .sec-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: clamp(2rem, 4vw, 3.8rem);
+            line-height: 1.05;
+            letter-spacing: .02em;
+        }
+
+        /* SERVICES */
+        .services {
+            background: var(--deep);
+            padding: 7rem 5rem;
+        }
+
+        .services-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 3.5rem;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .services-sub {
+            max-width: 300px;
+            color: var(--gray);
+            font-size: .88rem;
+            line-height: 1.8;
+            font-weight: 200;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+        }
+
+        .svc-card {
+            background: var(--card);
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: background .3s, transform .4s cubic-bezier(.16, 1, .3, 1);
+        }
+
+        .svc-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--violet);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .5s ease;
+        }
+
+        .svc-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 110%, rgba(184, 127, 255, .1), transparent 55%);
+            opacity: 0;
+            transition: opacity .4s;
+        }
+
+        .svc-card:hover {
+            background: #ECEAE4;
+            transform: translateY(-6px);
+        }
+
+        .svc-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .svc-card:hover::after {
+            opacity: 1;
+        }
+
+        .svc-canvas-wrap {
+            height: 130px;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .svc-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 400;
+            margin-bottom: .8rem;
+            letter-spacing: .02em;
+        }
+
+        .svc-desc {
+            font-size: .84rem;
+            color: var(--gray);
+            line-height: 1.8;
+            font-weight: 200;
+            margin-bottom: 1.8rem;
+        }
+
+        .svc-link {
+            font-size: .62rem;
+            font-weight: 300;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            color: var(--violet);
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            transition: gap .2s;
+        }
+
+        .svc-card:hover .svc-link {
+            gap: .9rem;
+        }
+
+        /* WHY */
+        .why {
+            background: var(--black);
+            padding: 7rem 5rem;
+        }
+
+        .why-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 7rem;
+            align-items: center;
+        }
+
+        .why-quote {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: clamp(2rem, 3.8vw, 3.4rem);
+            line-height: 1.2;
+            margin-bottom: 3.5rem;
+            letter-spacing: .02em;
+        }
+
+        .why-quote span {
+            color: var(--violet);
+        }
+
+        .pillars {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pillar {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border);
+            transition: padding-left .3s, border-color .3s;
+        }
+
+        .pillar:first-child {
+            border-top: 1px solid var(--border);
+        }
+
+        .pillar:hover {
+            padding-left: .6rem;
+            border-color: rgba(184, 127, 255, .3);
+        }
+
+        .pillar-icon {
+            width: 44px;
+            height: 44px;
+            min-width: 44px;
+            border: 1px solid var(--border);
+            background: var(--vglow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: border-color .3s, background .3s, transform .3s;
+        }
+
+        .pillar:hover .pillar-icon {
+            border-color: rgba(184, 127, 255, .4);
+            background: rgba(184, 127, 255, .1);
+            transform: rotate(5deg) scale(1.1);
+        }
+
+        .pillar-title {
+            font-family: 'Playfair Display', serif;
+            font-size: .95rem;
+            font-weight: 400;
+            margin-bottom: .35rem;
+            letter-spacing: .03em;
+        }
+
+        .pillar-desc {
+            font-size: .83rem;
+            color: var(--gray);
+            line-height: 1.75;
+            font-weight: 200;
+        }
+
+        .why-visual {
+            position: relative;
+            height: 440px;
+        }
+
+        .why-card {
+            position: absolute;
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            transition: transform .4s, box-shadow .4s, border-color .3s;
+        }
+
+        .why-card:hover {
+            box-shadow: 0 20px 60px rgba(184, 127, 255, .12);
+            border-color: rgba(184, 127, 255, .3);
+        }
+
+        .wc-label {
+            font-size: .58rem;
+            font-weight: 300;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            color: var(--violet);
+            margin-bottom: .35rem;
+        }
+
+        .wc-val {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 400;
+            line-height: 1;
+        }
+
+        .wc-sub {
+            font-size: .75rem;
+            color: var(--gray);
+            font-weight: 200;
+            margin-top: .3rem;
+        }
+
+        .stat-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 400;
+            line-height: 1;
+        }
+
+        /* CTA */
+        .cta {
+            background: var(--deep);
+            padding: 7rem 5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-orb {
+            position: absolute;
+            width: 600px;
+            height: 360px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(ellipse, rgba(184, 127, 255, .18) 0%, transparent 65%);
+            animation: breathe2 5s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes breathe2 {
+
+            0%,
+            100% {
+                opacity: .8;
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.08);
+            }
+        }
+
+        .cta-eyebrow {
+            font-size: .62rem;
+            font-weight: 200;
+            letter-spacing: .35em;
+            text-transform: uppercase;
+            color: var(--violet);
+            margin-bottom: 1.2rem;
+        }
+
+        .cta-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: clamp(2.6rem, 5.5vw, 5.5rem);
+            line-height: .96;
+            letter-spacing: .01em;
+            margin-bottom: 1.2rem;
+        }
+
+        .cta-title em {
+            font-style: italic;
+            color: var(--violet);
+        }
+
+        .cta-sub {
+            font-size: .9rem;
+            color: var(--gray);
+            font-weight: 200;
+            letter-spacing: .06em;
+            margin-bottom: 3rem;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #E5E4DF;
+            border-top: 1px solid var(--border);
+            padding: 4rem 5rem 2.5rem;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand-desc {
+            font-size: .84rem;
+            color: var(--gray);
+            font-weight: 200;
+            line-height: 1.8;
+            margin-top: .9rem;
+            max-width: 240px;
+        }
+
+        .footer-tagline {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: .9rem;
+            color: rgba(184, 127, 255, .45);
+            margin-top: .5rem;
+        }
+
+        .footer-col h4 {
+            font-size: .62rem;
+            font-weight: 300;
+            letter-spacing: .25em;
+            text-transform: uppercase;
+            color: var(--violet);
+            margin-bottom: 1.3rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: .65rem;
+        }
+
+        .footer-col a {
+            color: var(--gray);
+            text-decoration: none;
+            font-size: .84rem;
+            font-weight: 200;
+            letter-spacing: .04em;
+            transition: color .2s;
+        }
+
+        .footer-col a:hover {
+            color: var(--white);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-copy {
+            font-size: .7rem;
+            color: var(--gray);
+            font-weight: 200;
+            letter-spacing: .07em;
+        }
+
+        .footer-copy span {
+            color: var(--violet);
+        }
+
+        .float-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--violet);
+            color: var(--black);
+            padding: .85rem 1.8rem;
+            border-radius: 2px;
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: .68rem;
+            font-weight: 400;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            text-decoration: none;
+            z-index: 400;
+            box-shadow: 0 8px 32px rgba(184, 127, 255, .4);
+            transition: transform .2s, box-shadow .2s;
+        }
+
+        .float-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 48px rgba(184, 127, 255, .6);
+        }
+
+        /* REVEAL */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity .7s ease, transform .7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* MOBILE */
+        @media(max-width:900px) {
+
+            nav,
+            nav.scrolled {
+                padding: 1rem 1.5rem !important;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                display: none !important;
+                position: fixed;
+                top: 61px;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                align-items: flex-start;
+                background: rgba(245, 245, 240, .98);
+                backdrop-filter: blur(20px);
+                padding: 1.5rem 2rem;
+                gap: 1.2rem;
+                border-bottom: 1px solid var(--border);
+                z-index: 499;
+                margin: 0;
+            }
+
+            .nav-links.open {
+                display: flex !important;
+            }
+
+            .hamburger.open span:nth-child(1) {
+                transform: translateY(6.5px) rotate(45deg);
+            }
+
+            .hamburger.open span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.open span:nth-child(3) {
+                transform: translateY(-6.5px) rotate(-45deg);
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                padding: 6rem 1.5rem 3rem;
+            }
+
+            .hero-right {
+                display: none;
+            }
+
+            .services,
+            .why,
+            .cta,
+            footer {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .why-inner {
+                grid-template-columns: 1fr;
+            }
+
+            .why-visual {
+                display: none;
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .footer-top>div:first-child {
+                grid-column: span 2;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- INTRO -->
+    <div id="intro">
+        <div id="intro-rings">
+            <div class="i-ring" style="width:90px;height:90px;animation-delay:.1s"></div>
+            <div class="i-ring" style="width:160px;height:160px;animation-delay:.35s"></div>
+            <div class="i-ring" style="width:240px;height:240px;animation-delay:.6s"></div>
+            <div class="i-ring" style="width:340px;height:340px;animation-delay:.85s"></div>
+            <div class="i-ring" style="width:460px;height:460px;animation-delay:1.1s"></div>
+        </div>
+        <div id="intro-flash"></div>
+        <div id="intro-logo">
+            <div id="intro-crown-wrap">
+                <svg width="88" height="48" viewBox="0 0 72 38" fill="none">
+                    <polyline points="4,34 4,10 20,24 36,4 52,24 68,10 68,34" stroke="rgba(184,127,255,0.85)"
+                        stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+                    <line x1="4" y1="34" x2="68" y2="34" stroke="rgba(184,127,255,0.35)" stroke-width="1"
+                        stroke-linecap="round" />
+                    <circle cx="4" cy="10" r="2" fill="rgba(184,127,255,0.65)" />
+                    <circle cx="68" cy="10" r="2" fill="rgba(184,127,255,0.65)" />
+                    <circle cx="20" cy="24" r="1.5" fill="rgba(184,127,255,0.4)" />
+                    <circle cx="52" cy="24" r="1.5" fill="rgba(184,127,255,0.4)" />
+                    <circle cx="36" cy="4" r="3.5" fill="rgba(225,195,255,1)" />
+                    <circle cx="36" cy="4" r="8" fill="rgba(184,127,255,0.2)" />
+                    <circle cx="36" cy="4" r="14" fill="rgba(184,127,255,0.07)" />
+                </svg>
+            </div>
+            <div id="intro-wordmark">
+                <div id="intro-aura">NM</div>
+                <div id="intro-rule"></div>
+                <div id="intro-tech">Wireless</div>
+            </div>
+            <div id="intro-tagline">Your Device. Elevated.</div>
+        </div>
+        <div id="intro-progress"></div>
+    </div>
+
+
+    <!-- NAV -->
+    <nav id="nav">
+        <a href="index.html" class="nav-logo">
+            <svg width="28" height="16" viewBox="0 0 72 38" fill="none">
+                <polyline points="4,34 4,10 20,24 36,4 52,24 68,10 68,34" stroke="#8B3FE8"
+                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                <line x1="4" y1="34" x2="68" y2="34" stroke="rgba(139,63,232,0.45)" stroke-width="1"
+                    stroke-linecap="round" />
+                <circle cx="36" cy="4" r="3.5" fill="#B87FFF" />
+                <circle cx="4" cy="10" r="2.2" fill="rgba(139,63,232,0.85)" />
+                <circle cx="68" cy="10" r="2.2" fill="rgba(139,63,232,0.85)" />
+            </svg>
+            <div class="nav-logo-text">NM<span>WIRELESS</span></div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="custom-cases.html">Custom Cases</a></li>
+            <li><a href="store.html">Store</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="booking.html" class="nav-book">Book a Repair</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" onclick="toggleMobile()">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-grid"></div>
+        <div class="hero-left">
+            <div class="hero-eyebrow">Brockville's Premium Tech Repair</div>
+            <h1 class="hero-title">We Bring<br>Your Device<br><em>Back to Life.</em></h1>
+            <p class="hero-sub">Phones, laptops, consoles — repaired fast, done right. Premium service with a guarantee
+                you can trust.</p>
+            <div class="hero-btns">
+                <a href="booking.html" class="btn-primary">Book a Repair</a>
+                <a href="services.html" class="btn-ghost">View Services</a>
+            </div>
+        </div>
+        <div class="hero-right">
+            <canvas id="phone-canvas"></canvas>
+            <div class="phone-badge pb-1">
+                <div class="badge-icon">⚡</div>
+                <div class="badge-title">Same-Day</div>
+                <div class="badge-sub">Most repairs in 1hr</div>
+            </div>
+            <div class="phone-badge pb-2">
+                <div class="badge-icon">🛡️</div>
+                <div class="badge-title">Guaranteed</div>
+                <div class="badge-sub">Quality parts only</div>
+            </div>
+            <div class="phone-badge pb-3">
+                <div class="badge-icon">🔍</div>
+                <div class="badge-title">Free Diagnosis</div>
+                <div class="badge-sub">No fix, no fee</div>
+            </div>
+        </div>
+        <div class="hero-scroll"><span>Scroll</span>
+            <div class="scroll-bar"></div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="services">
+        <div class="services-top reveal">
+            <div>
+                <div class="sec-label">What We Fix</div>
+                <h2 class="sec-title">Every Device.<br>Every Problem.</h2>
+            </div>
+            <p class="services-sub">Walk in or book online. Fast turnaround, premium parts, real results.</p>
+        </div>
+        <div class="services-grid">
+            <a href="services.html" class="svc-card reveal">
+                <div class="svc-canvas-wrap"><canvas id="c-phone" width="120" height="130"></canvas></div>
+                <div class="svc-name">Phone Repair</div>
+                <p class="svc-desc">Cracked screens, dead batteries, water damage, charging ports — all major brands
+                    handled same day.</p>
+                <div class="svc-link">View Services <span>→</span></div>
+            </a>
+            <a href="services.html" class="svc-card reveal">
+                <div class="svc-canvas-wrap"><canvas id="c-laptop" width="120" height="130"></canvas></div>
+                <div class="svc-name">Laptop Repair</div>
+                <p class="svc-desc">Screen replacements, keyboard fixes, charging ports, motherboard diagnostics and
+                    virus removal.</p>
+                <div class="svc-link">View Services <span>→</span></div>
+            </a>
+            <a href="services.html" class="svc-card reveal">
+                <div class="svc-canvas-wrap"><canvas id="c-console" width="120" height="130"></canvas></div>
+                <div class="svc-name">Console Repair</div>
+                <p class="svc-desc">PS5, Xbox, Nintendo Switch — HDMI ports, disc drives, overheating fixes. Back in the
+                    game fast.</p>
+                <div class="svc-link">View Services <span>→</span></div>
+            </a>
+        </div>
+    </section>
+
+    <!-- WHY -->
+    <section class="why">
+        <div class="why-inner">
+            <div>
+                <div class="sec-label reveal">Why PremiumFixTech</div>
+                <h2 class="why-quote reveal">"Not just fixed.<br><span>Elevated.</span>"</h2>
+                <div class="pillars">
+                    <div class="pillar reveal">
+                        <div class="pillar-icon">⚡</div>
+                        <div>
+                            <div class="pillar-title">Same-Day Turnaround</div>
+                            <p class="pillar-desc">Most repairs done in 1–2 hours. Drop it off, grab a coffee, pick it
+                                up fixed.</p>
+                        </div>
+                    </div>
+                    <div class="pillar reveal">
+                        <div class="pillar-icon">🛡️</div>
+                        <div>
+                            <div class="pillar-title">Quality Guaranteed</div>
+                            <p class="pillar-desc">Premium-grade parts on every repair. If something's not right, we
+                                make it right.</p>
+                        </div>
+                    </div>
+                    <div class="pillar reveal">
+                        <div class="pillar-icon">💎</div>
+                        <div>
+                            <div class="pillar-title">Premium Experience</div>
+                            <p class="pillar-desc">Personal, professional service — not a big-box lineup. Your device
+                                gets full attention.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="why-visual">
+                <div class="why-card reveal" style="top:0;left:0;right:60px;">
+                    <div class="wc-label">Average Repair Time</div>
+                    <div class="stat-num" data-target="1">0</div><span
+                        style="font-size:.75rem;color:var(--gray);font-family:'Josefin Sans',sans-serif;font-weight:200;">
+                        HR avg</span>
+                    <div class="wc-sub">for most common repairs</div>
+                </div>
+                <div class="why-card reveal" style="top:44%;left:44%;right:0;">
+                    <div class="wc-label">Satisfaction</div>
+                    <div class="stat-num" data-target="100">0</div><span
+                        style="font-size:.75rem;color:var(--gray);font-family:'Josefin Sans',sans-serif;font-weight:200;">%</span>
+                    <div class="wc-sub">or we make it right</div>
+                </div>
+                <div class="why-card reveal" style="bottom:0;left:0;width:175px;">
+                    <div class="wc-label">Based In</div>
+                    <div class="wc-val">🇨🇦</div>
+                    <div class="wc-sub">Brockville, ON</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <div class="cta-orb"></div>
+        <div class="cta-eyebrow reveal">Don't Wait</div>
+        <h2 class="cta-title reveal">Ready to<br><em>Fix It?</em></h2>
+        <p class="cta-sub reveal">Drop by the shop or book your repair online. Same-day service available.</p>
+        <a href="booking.html" class="btn-primary reveal" style="position:relative;z-index:2;">Book Your Repair</a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-top">
+            <div>
+                <a href="index.html" class="nav-logo">
+                    <svg width="26" height="15" viewBox="0 0 72 38" fill="none">
+                        <polyline points="4,34 4,10 20,24 36,4 52,24 68,10 68,34" stroke="#8B3FE8"
+                            stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                        <line x1="4" y1="34" x2="68" y2="34" stroke="rgba(139,63,232,0.45)" stroke-width="1" />
+                        <circle cx="36" cy="4" r="3" fill="#B87FFF" />
+                        <circle cx="4" cy="10" r="2" fill="rgba(139,63,232,0.85)" />
+                        <circle cx="68" cy="10" r="2" fill="rgba(139,63,232,0.85)" />
+                    </svg>
+                    <div class="nav-logo-text">NM<span>WIRELESS</span></div>
+                </a>
+                <p class="footer-brand-desc">Brockville's premium tech repair studio. Phones, laptops, consoles — fixed
+                    fast, done right.</p>
+                <p class="footer-tagline">Your Device. Elevated.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="services.html">Phone Repair</a></li>
+                    <li><a href="services.html">Laptop Repair</a></li>
+                    <li><a href="services.html">Console Repair</a></li>
+                    <li><a href="services.html">Data Recovery</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Store</h4>
+                <ul>
+                    <li><a href="custom-cases.html">Custom Cases</a></li>
+                    <li><a href="store.html">Accessories</a></li>
+                    <li><a href="store.html">Screen Protectors</a></li>
+                    <li><a href="store.html">Chargers &amp; Cables</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="booking.html">Book a Repair</a></li>
+                    <li><a href="contact.html">Find Us</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-copy">© 2025 <span>PremiumFixTech</span>. All rights reserved. Brockville, ON.</div>
+            <div class="footer-copy"><span>Your Device. Elevated.</span></div>
+        </div>
+    </footer>
+    <a href="booking.html" class="float-btn">Book Now</a>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // ── INTRO ──
+        const intro = document.getElementById('intro');
+        if (sessionStorage.getItem('introSeen')) {
+            intro.remove();
+            document.body.style.overflow = '';
+        } else {
+            sessionStorage.setItem('introSeen', '1');
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => {
+                intro.classList.add('done');
+                document.body.style.overflow = '';
+                setTimeout(() => intro.remove(), 950);
+            }, 4400);
+        }
+
+        // ── NAV ──
+        window.addEventListener('scroll', () => {
+            const n = document.getElementById('nav');
+            if (n) n.classList.toggle('scrolled', scrollY > 60);
+        });
+        function toggleMobile() {
+            const links = document.querySelector('.nav-links');
+            const btn = document.getElementById('hamburger');
+            links.classList.toggle('open');
+            btn.classList.toggle('open', links.classList.contains('open'));
+        }
+        document.querySelectorAll('.nav-links a').forEach(a => {
+            a.addEventListener('click', () => {
+                document.querySelector('.nav-links').classList.remove('open');
+                document.getElementById('hamburger').classList.remove('open');
+            });
+        });
+
+        // ── REVEAL ──
+        const obs = new IntersectionObserver(entries => entries.forEach(e => {
+            if (e.isIntersecting) e.target.classList.add('visible');
+        }), { threshold: .1 });
+        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+        // ── COUNTER ──
+        const cntObs = new IntersectionObserver(entries => entries.forEach(e => {
+            if (!e.isIntersecting) return;
+            const el = e.target, target = parseInt(el.dataset.target);
+            let v = 0; const step = target / 60;
+            const t = setInterval(() => {
+                v += step; if (v >= target) { el.textContent = target; clearInterval(t); }
+                else el.textContent = Math.floor(v);
+            }, 16);
+            cntObs.unobserve(el);
+        }), { threshold: .5 });
+        document.querySelectorAll('[data-target]').forEach(el => cntObs.observe(el));
+
+        // ── THREE.JS HERO PHONE ──
+        (function initHeroPhone() {
+            const canvas = document.getElementById('phone-canvas');
+            if (!canvas || !window.THREE) return;
+
+            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+            const W = canvas.offsetWidth || 500, H = canvas.offsetHeight || 520;
+            renderer.setSize(W, H);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(42, W / H, .1, 100);
+            camera.position.set(0, 0, 5.5);
+
+            // Phone body group
+            const phoneGroup = new THREE.Group();
+            scene.add(phoneGroup);
+
+            // Main body
+            const bodyGeo = new THREE.BoxGeometry(1.5, 3.0, .15);
+            const bodyMat = new THREE.MeshStandardMaterial({ color: 0x080618, metalness: .95, roughness: .08 });
+            const body = new THREE.Mesh(bodyGeo, bodyMat);
+            phoneGroup.add(body);
+
+            // Screen
+            const scrGeo = new THREE.PlaneGeometry(1.2, 2.5);
+            const scrMat = new THREE.MeshBasicMaterial({ color: 0x12082a, transparent: true, opacity: .97 });
+            const scr = new THREE.Mesh(scrGeo, scrMat);
+            scr.position.z = .085;
+            phoneGroup.add(scr);
+
+            // Screen glow lines — simulating UI
+            const lineColors = [0xB87FFF, 0x8844ee, 0xcc88ff, 0xB87FFF, 0x7733dd];
+            const lineWidths = [.7, .5, .9, .4, .6];
+            const lineOpacities = [.25, .15, .2, .12, .18];
+            for (let i = 0; i < 5; i++) {
+                const lg = new THREE.PlaneGeometry(lineWidths[i], .018);
+                const lm = new THREE.MeshBasicMaterial({ color: lineColors[i], transparent: true, opacity: lineOpacities[i] });
+                const l = new THREE.Mesh(lg, lm);
+                l.position.set(Math.random() * .2 - .1, -1.0 + i * .52, .09);
+                phoneGroup.add(l);
+            }
+
+            // Notch / camera
+            const notchGeo = new THREE.SphereGeometry(.06, 16, 16);
+            const notchMat = new THREE.MeshBasicMaterial({ color: 0xB87FFF });
+            const notch = new THREE.Mesh(notchGeo, notchMat);
+            notch.position.set(0, 1.2, .09);
+            phoneGroup.add(notch);
+
+            // Notch glow halo
+            const haloGeo = new THREE.SphereGeometry(.12, 16, 16);
+            const haloMat = new THREE.MeshBasicMaterial({ color: 0xB87FFF, transparent: true, opacity: .15 });
+            const halo = new THREE.Mesh(haloGeo, haloMat);
+            halo.position.copy(notch.position);
+            phoneGroup.add(halo);
+
+            // Home bar
+            const homeGeo = new THREE.PlaneGeometry(.45, .025);
+            const homeMat = new THREE.MeshBasicMaterial({ color: 0xB87FFF, transparent: true, opacity: .55 });
+            const homeBar = new THREE.Mesh(homeGeo, homeMat);
+            homeBar.position.set(0, -1.3, .09);
+            phoneGroup.add(homeBar);
+
+            // Outer edge wireframe glow
+            const wireGeo = new THREE.BoxGeometry(1.52, 3.02, .16);
+            const wireMat = new THREE.MeshBasicMaterial({ color: 0xB87FFF, wireframe: true, transparent: true, opacity: .06 });
+            const wire = new THREE.Mesh(wireGeo, wireMat);
+            phoneGroup.add(wire);
+
+            // Side buttons
+            [[.78, .5, .02], [.78, -.2, .02], [-.78, .2, .02]].forEach(([x, y, z]) => {
+                const bg = new THREE.BoxGeometry(.04, .25, .1);
+                const bm = new THREE.MeshStandardMaterial({ color: 0x111, metalness: .9, roughness: .1 });
+                const b = new THREE.Mesh(bg, bm);
+                b.position.set(x, y, z);
+                phoneGroup.add(b);
+            });
+
+            // Floating particles
+            const particles = [];
+            for (let i = 0; i < 35; i++) {
+                const pg = new THREE.SphereGeometry(Math.random() * .022 + .006, 6, 6);
+                const pm = new THREE.MeshBasicMaterial({ color: 0xB87FFF, transparent: true, opacity: Math.random() * .5 + .15 });
+                const p = new THREE.Mesh(pg, pm);
+                const ang = Math.random() * Math.PI * 2;
+                const rad = 1.8 + Math.random() * 1.8;
+                p.position.set(Math.cos(ang) * rad, (Math.random() - .5) * 3.5, (Math.random() - .5) * .6);
+                p.userData = { ang, rad, spd: Math.random() * .004 + .002, ys: Math.random() * .012 + .004, y: p.position.y };
+                scene.add(p);
+                particles.push(p);
+            }
+
+            // Lights
+            scene.add(new THREE.AmbientLight(0xffffff, .25));
+            const vl = new THREE.PointLight(0xB87FFF, 4, 12); vl.position.set(2.5, 2, 3); scene.add(vl);
+            const bl = new THREE.PointLight(0x3322cc, 2, 8); bl.position.set(-2, -1, 2); scene.add(bl);
+            const rl = new THREE.PointLight(0xffffff, .6, 6); rl.position.set(0, 4, -1); scene.add(rl);
+
+            // Mouse tracking
+            let tRX = 0, tRY = 0, cRX = 0, cRY = 0;
+            document.addEventListener('mousemove', e => {
+                tRY = (e.clientX / window.innerWidth - .5) * 1.4;
+                tRX = -(e.clientY / window.innerHeight - .5) * .7;
+            });
+
+            let tick = 0;
+            (function loop() {
+                requestAnimationFrame(loop);
+                tick += .012;
+                cRX += (tRX - cRX) * .05;
+                cRY += (tRY - cRY) * .05;
+                phoneGroup.rotation.x = cRX + Math.sin(tick * .4) * .035;
+                phoneGroup.rotation.y = cRY + Math.sin(tick * .25) * .08;
+                phoneGroup.position.y = Math.sin(tick * .5) * .1;
+                vl.intensity = 3.5 + Math.sin(tick * .7) * .8;
+                haloMat.opacity = .1 + Math.sin(tick * 1.2) * .08;
+                particles.forEach(p => {
+                    p.userData.ang += p.userData.spd;
+                    p.position.x = Math.cos(p.userData.ang) * p.userData.rad;
+                    p.position.z = Math.sin(p.userData.ang) * p.userData.rad * .3;
+                    p.userData.y += p.userData.ys;
+                    if (p.userData.y > 2) p.userData.y = -2;
+                    p.position.y = p.userData.y;
+                    p.material.opacity = .2 + Math.abs(Math.sin(p.userData.ang * 2)) * .35;
+                });
+                renderer.render(scene, camera);
+            })();
+
+            window.addEventListener('resize', () => {
+                const W = canvas.offsetWidth, H = canvas.offsetHeight;
+                camera.aspect = W / H; camera.updateProjectionMatrix();
+                renderer.setSize(W, H);
+            });
+        })();
+
+        // ── MINI 3D SERVICE ICONS ──
+        function miniScene(id, buildMesh) {
+            const canvas = document.getElementById(id);
+            if (!canvas || !window.THREE) return;
+            const W = 120, H = 130;
+            renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+            renderer.setSize(W, H);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            const scene = new THREE.Scene();
+            const cam = new THREE.PerspectiveCamera(42, W / H, .1, 50);
+            cam.position.set(0, 0, 4);
+            scene.add(new THREE.AmbientLight(0xffffff, .3));
+            const vl = new THREE.PointLight(0xB87FFF, 5, 10); vl.position.set(1, 2, 3); scene.add(vl);
+            const bl = new THREE.PointLight(0x4422cc, 2, 8); bl.position.set(-1, -1, 2); scene.add(bl);
+            const mesh = buildMesh();
+            scene.add(mesh);
+            let t = 0;
+            (function loop() {
+                requestAnimationFrame(loop); t += .016;
+                mesh.rotation.y = Math.sin(t * .7) * .7;
+                mesh.rotation.x = Math.sin(t * .4) * .18;
+                mesh.position.y = Math.sin(t * .9) * .07;
+                vl.intensity = 4 + Math.sin(t * .8) * 1.5;
+                renderer.render(scene, cam);
+            })();
+        }
+
+        // Phone mini
+        miniScene('c-phone', () => {
+            const g = new THREE.Group();
+            const body = new THREE.Mesh(new THREE.BoxGeometry(.85, 1.7, .1), new THREE.MeshStandardMaterial({ color: 0x080618, metalness: .95, roughness: .08 }));
+            const scr = new THREE.Mesh(new THREE.PlaneGeometry(.68, 1.4), new THREE.MeshBasicMaterial({ color: 0x16083a, transparent: true, opacity: .95 }));
+            scr.position.z = .056;
+            const wire = new THREE.Mesh(new THREE.BoxGeometry(.87, 1.72, .11), new THREE.MeshBasicMaterial({ color: 0xB87FFF, wireframe: true, transparent: true, opacity: .25 }));
+            const dot = new THREE.Mesh(new THREE.CircleGeometry(.05, 12), new THREE.MeshBasicMaterial({ color: 0xB87FFF }));
+            dot.position.set(0, .75, .06);
+            const bar = new THREE.Mesh(new THREE.PlaneGeometry(.3, .02), new THREE.MeshBasicMaterial({ color: 0xB87FFF, transparent: true, opacity: .6 }));
+            bar.position.set(0, -.77, .06);
+            g.add(body, scr, wire, dot, bar);
+            return g;
+        });
+
+        // Laptop mini
+        miniScene('c-laptop', () => {
+            const g = new THREE.Group();
+            const mat = new THREE.MeshStandardMaterial({ color: 0x0e0e0e, metalness: .9, roughness: .12 });
+            const base = new THREE.Mesh(new THREE.BoxGeometry(1.5, .08, 1.0), mat);
+            const lid = new THREE.Mesh(new THREE.BoxGeometry(1.5, .07, .92), mat.clone());
+            lid.position.set(0, .6, -.04); lid.rotation.x = -1.15;
+            const scr = new THREE.Mesh(new THREE.PlaneGeometry(1.28, .78), new THREE.MeshBasicMaterial({ color: 0x12083a, transparent: true, opacity: .95 }));
+            scr.position.set(0, .6, -.47); scr.rotation.x = -1.15;
+            const wire = new THREE.Mesh(new THREE.BoxGeometry(1.52, .09, 1.02), new THREE.MeshBasicMaterial({ color: 0xB87FFF, wireframe: true, transparent: true, opacity: .2 }));
+            const keys = new THREE.Mesh(new THREE.PlaneGeometry(1.1, .6), new THREE.MeshBasicMaterial({ color: 0x111, transparent: true, opacity: .6 }));
+            keys.rotation.x = -Math.PI / 2; keys.position.set(0, .045, .1);
+            g.add(base, lid, scr, wire, keys);
+            g.position.y = -.15;
+            return g;
+        });
+
+        // Console mini
+        miniScene('c-console', () => {
+            const g = new THREE.Group();
+            const darkMat = new THREE.MeshStandardMaterial({ color: 0x06060f, metalness: .85, roughness: .2 });
+            const whiteMat = new THREE.MeshStandardMaterial({ color: 0xeeeeee, metalness: .5, roughness: .3 });
+            // PS5 style body
+            const body = new THREE.Mesh(new THREE.BoxGeometry(1.6, .38, .95), darkMat);
+            const topWing = new THREE.Mesh(new THREE.BoxGeometry(1.3, .28, .85), whiteMat);
+            topWing.position.y = .3;
+            const bottomWing = new THREE.Mesh(new THREE.BoxGeometry(1.3, .28, .85), whiteMat);
+            bottomWing.position.y = -.3;
+            const stripe = new THREE.Mesh(new THREE.BoxGeometry(1.62, .1, .3), new THREE.MeshBasicMaterial({ color: 0xB87FFF, transparent: true, opacity: .7 }));
+            const wire = new THREE.Mesh(new THREE.BoxGeometry(1.65, .42, .97), new THREE.MeshBasicMaterial({ color: 0xB87FFF, wireframe: true, transparent: true, opacity: .18 }));
+            // Disc slot
+            const slot = new THREE.Mesh(new THREE.BoxGeometry(.8, .04, .15), new THREE.MeshBasicMaterial({ color: 0x222, transparent: true, opacity: .8 }));
+            slot.position.set(-.3, .18, .35);
+            g.add(body, topWing, bottomWing, stripe, wire, slot);
+            return g;
+        });
+    </script>
+</body>
+
+</html>

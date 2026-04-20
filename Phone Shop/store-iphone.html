@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPhone Store — NM Wireless</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Josefin+Sans:wght@100;200;300;400&family=Cormorant+Garamond:ital,wght@1,300&display=swap"
+        rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        :root {
+            --black: #F5F5F0; --deep: #EEEDE8; --card: #FFFFFF; --card2: #F0EFE9;
+            --violet: #B87FFF; --vglow: rgba(184,127,255,0.12); --white: #1A1A18;
+            --gray: #6B6860; --border: rgba(120,80,180,0.18);
+        }
+        body { background: var(--black); color: var(--white); font-family: 'Josefin Sans', sans-serif; overflow-x: hidden; }
+
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 500; padding: 1.2rem 3rem; display: flex; align-items: center; justify-content: space-between; gap: 2rem; background: rgba(245,245,240,0.92); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border); transition: padding .3s; }
+        nav.scrolled { padding: .9rem 3rem; }
+        .nav-logo { display: flex; align-items: center; gap: .7rem; text-decoration: none; }
+        .nav-logo-text { font-family: 'Playfair Display', serif; font-weight: 400; font-size: .85rem; letter-spacing: .12em; text-indent: .12em; color: var(--white); }
+        .nav-logo-text span { color: rgba(184,127,255,.65); }
+        .nav-links { display: flex; gap: 1.6rem; list-style: none; align-items: center; }
+        .nav-links a { font-size: .6rem; font-weight: 200; letter-spacing: .18em; text-transform: uppercase; color: var(--gray); text-decoration: none; transition: color .2s; white-space: nowrap; }
+        .nav-links a:hover, .nav-links a.active { color: var(--white); }
+        .nav-links .nav-book { background: transparent; border: 1px solid var(--border); color: var(--violet); padding: .48rem 1.1rem; font-size: .6rem; font-weight: 300; letter-spacing: .15em; text-transform: uppercase; text-decoration: none; border-radius: 2px; white-space: nowrap; transition: background .25s, color .25s, box-shadow .25s; }
+        .nav-links .nav-book:hover { background: var(--violet); color: var(--black); box-shadow: 0 0 28px rgba(184,127,255,.4); }
+        .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; flex-shrink: 0; }
+        .hamburger span { width: 22px; height: 1.5px; background: #1A1A18; display: block; transition: transform .3s, opacity .3s; }
+
+        .hero { padding: 11rem 5rem 7rem; position: relative; overflow: hidden; background: var(--deep); border-bottom: 1px solid var(--border); }
+        .hero-orb { position: absolute; width: 600px; height: 400px; top: 0; right: -60px; background: radial-gradient(ellipse, rgba(184,127,255,.15) 0%, transparent 70%); pointer-events: none; animation: breathe 6s ease-in-out infinite; }
+        .hero-orb2 { position: absolute; width: 300px; height: 300px; bottom: -60px; left: 10%; background: radial-gradient(ellipse, rgba(120,60,220,.1) 0%, transparent 70%); pointer-events: none; animation: breathe 8s ease-in-out 2s infinite; }
+        .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(120,80,180,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(120,80,180,.06) 1px, transparent 1px); background-size: 80px 80px; mask-image: radial-gradient(ellipse at 30% 40%, black 10%, transparent 70%); }
+        @keyframes breathe { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.1)} }
+        .breadcrumb { display: flex; align-items: center; gap: .6rem; margin-bottom: 2rem; animation: fadeUp .7s ease both; }
+        .breadcrumb a { font-size: .62rem; font-weight: 200; letter-spacing: .2em; text-transform: uppercase; color: var(--gray); text-decoration: none; transition: color .2s; }
+        .breadcrumb a:hover { color: var(--violet); }
+        .breadcrumb-sep { color: var(--border); font-size: .7rem; }
+        .breadcrumb-cur { font-size: .62rem; font-weight: 200; letter-spacing: .2em; text-transform: uppercase; color: var(--violet); }
+        .hero-eyebrow { font-size: .62rem; font-weight: 200; letter-spacing: .35em; text-transform: uppercase; color: var(--violet); margin-bottom: 1.4rem; display: flex; align-items: center; gap: .8rem; animation: fadeUp .7s .1s ease both; }
+        .hero-eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--violet); }
+        .hero-title { font-family: 'Playfair Display', serif; font-weight: 400; font-size: clamp(2.8rem,6vw,6rem); line-height: .95; letter-spacing: .01em; margin-bottom: 1.6rem; animation: fadeUp .7s .2s ease both; }
+        .hero-title em { font-style: italic; color: transparent; -webkit-text-stroke: 1px rgba(130,60,220,.7); }
+        .hero-sub { font-size: .92rem; font-weight: 200; color: #555250; max-width: 460px; line-height: 1.85; letter-spacing: .04em; animation: fadeUp .7s .3s ease both; }
+        @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+        .filters-wrap { padding: 3.5rem 5rem 0; background: var(--black); }
+        .filter-label { font-size: .58rem; font-weight: 300; letter-spacing: .28em; text-transform: uppercase; color: var(--violet); margin-bottom: .8rem; display: flex; align-items: center; gap: .5rem; }
+        .filter-label::before { content: ''; width: 14px; height: 1px; background: var(--violet); }
+        .filter-bar { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+        .filter-btn { font-family: 'Josefin Sans', sans-serif; font-size: .6rem; font-weight: 200; letter-spacing: .18em; text-transform: uppercase; padding: .5rem 1.1rem; border: 1px solid var(--border); background: transparent; color: var(--gray); cursor: pointer; transition: all .2s; border-radius: 1px; }
+        .filter-btn:hover { border-color: rgba(184,127,255,.4); color: var(--white); }
+        .filter-btn.active { background: var(--violet); color: var(--black); border-color: var(--violet); }
+
+        .products-wrap { padding: 2.5rem 5rem 6rem; background: var(--black); }
+        .product-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+        .product-card { background: var(--card); padding: 2.2rem; position: relative; overflow: hidden; transition: background .3s; display: flex; flex-direction: column; }
+        .product-card.hidden { display: none; }
+        .product-card:hover { background: var(--card2); }
+        .product-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--violet); transform: scaleX(0); transform-origin: left; transition: transform .4s ease; }
+        .product-card:hover::before { transform: scaleX(1); }
+        .product-cat { font-size: .56rem; font-weight: 300; letter-spacing: .2em; text-transform: uppercase; color: rgba(184,127,255,.5); margin-bottom: .6rem; }
+        .product-model-tag { font-size: .58rem; font-weight: 200; letter-spacing: .12em; color: var(--gray); margin-bottom: .8rem; }
+        .product-icon { font-size: 1.8rem; margin-bottom: .9rem; display: block; line-height: 1; }
+        .product-name { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 400; letter-spacing: .02em; margin-bottom: .5rem; line-height: 1.3; }
+        .product-desc { font-size: .78rem; color: var(--gray); line-height: 1.7; font-weight: 200; flex: 1; margin-bottom: 1.4rem; }
+        .product-inquire { font-size: .6rem; font-weight: 300; letter-spacing: .2em; text-transform: uppercase; color: var(--violet); display: flex; align-items: center; gap: .5rem; cursor: pointer; background: none; border: none; padding: 0; font-family: 'Josefin Sans', sans-serif; transition: gap .2s; }
+        .product-card:hover .product-inquire { gap: .9rem; }
+
+        .no-results { display: none; padding: 4rem 0; text-align: center; font-size: .85rem; color: var(--gray); font-weight: 200; letter-spacing: .08em; }
+        .no-results.visible { display: block; }
+
+        .modal-overlay { position: fixed; inset: 0; background: rgba(245,245,240,0.92); z-index: 800; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .3s; backdrop-filter: blur(12px); }
+        .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+        .reveal { opacity: 0; transform: translateY(24px); transition: opacity .65s ease, transform .65s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .float-btn { position: fixed; bottom: 2rem; right: 2rem; background: var(--violet); color: var(--black); padding: .85rem 1.8rem; border-radius: 2px; font-family: 'Josefin Sans', sans-serif; font-size: .68rem; font-weight: 400; letter-spacing: .18em; text-transform: uppercase; text-decoration: none; z-index: 400; box-shadow: 0 8px 32px rgba(184,127,255,.4); transition: transform .2s, box-shadow .2s; }
+        .float-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 48px rgba(184,127,255,.6); }
+
+        footer { background: #E5E4DF; border-top: 1px solid var(--border); padding: 4rem 5rem 2.5rem; }
+        .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+        .footer-brand-desc { font-size: .84rem; color: var(--gray); font-weight: 200; line-height: 1.8; margin-top: .9rem; max-width: 240px; }
+        .footer-tagline { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: .9rem; color: rgba(184,127,255,.45); margin-top: .5rem; }
+        .footer-col h4 { font-size: .62rem; font-weight: 300; letter-spacing: .25em; text-transform: uppercase; color: var(--violet); margin-bottom: 1.3rem; }
+        .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .65rem; }
+        .footer-col a { color: var(--gray); text-decoration: none; font-size: .84rem; font-weight: 200; letter-spacing: .04em; transition: color .2s; }
+        .footer-col a:hover { color: var(--white); }
+        .footer-bottom { border-top: 1px solid var(--border); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .footer-copy { font-size: .7rem; color: var(--gray); font-weight: 200; letter-spacing: .07em; }
+        .footer-copy span { color: var(--violet); }
+
+        @media(max-width:900px) {
+            nav, nav.scrolled { padding: 1rem 1.5rem !important; }
+            .hamburger { display: flex; }
+            .nav-links { display: none !important; position: fixed; top: 61px; left: 0; right: 0; flex-direction: column; align-items: flex-start; background: rgba(245,245,240,.98); backdrop-filter: blur(20px); padding: 1.5rem 2rem; gap: 1.2rem; border-bottom: 1px solid var(--border); z-index: 499; }
+            .nav-links.open { display: flex !important; }
+            .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+            .hamburger.open span:nth-child(2) { opacity: 0; }
+            .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+            .hero { padding: 8rem 1.5rem 5rem; }
+            .filters-wrap, .products-wrap { padding-left: 1.5rem; padding-right: 1.5rem; }
+            .product-grid { grid-template-columns: repeat(2,1fr); }
+            footer { padding: 3rem 1.5rem 2rem; }
+            .footer-top { grid-template-columns: 1fr 1fr; }
+            .footer-top>div:first-child { grid-column: span 2; }
+        }
+    </style>
+</head>
+
+<body>
+    <nav id="nav">
+        <a href="index.html" class="nav-logo">
+            <svg width="28" height="16" viewBox="0 0 72 38" fill="none">
+                <polyline points="4,34 4,10 20,24 36,4 52,24 68,10 68,34" stroke="rgba(184,127,255,0.82)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                <line x1="4" y1="34" x2="68" y2="34" stroke="rgba(184,127,255,0.3)" stroke-width="1" stroke-linecap="round" />
+                <circle cx="36" cy="4" r="3.5" fill="rgba(220,190,255,1)" />
+                <circle cx="4" cy="10" r="2.2" fill="rgba(184,127,255,0.65)" />
+                <circle cx="68" cy="10" r="2.2" fill="rgba(184,127,255,0.65)" />
+            </svg>
+            <div class="nav-logo-text">NM<span>WIRELESS</span></div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="custom-cases.html">Custom Cases</a></li>
+            <li><a href="store.html" class="active">Store</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="booking.html" class="nav-book">Book a Repair</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" onclick="toggleMobile()"><span></span><span></span><span></span></button>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-grid"></div>
+        <div class="hero-orb"></div>
+        <div class="hero-orb2"></div>
+        <div class="breadcrumb">
+            <a href="index.html">Home</a><span class="breadcrumb-sep">›</span>
+            <a href="store.html">Store</a><span class="breadcrumb-sep">›</span>
+            <span class="breadcrumb-cur">iPhone</span>
+        </div>
+        <div class="hero-eyebrow">iPhone Store</div>
+        <h1 class="hero-title">iPhone 11<br><em>to 17 Pro Max.</em></h1>
+        <p class="hero-sub">Cases, screen protectors, camera lens guards, chargers, MagSafe accessories, audio, and power banks — every model covered.</p>
+    </section>
+
+    <!-- FILTERS -->
+    <div class="filters-wrap reveal">
+        <div class="filter-label">Filter by Model</div>
+        <div class="filter-bar" id="modelBar">
+            <button class="filter-btn active" onclick="setModel('all',this)">All Models</button>
+            <button class="filter-btn" onclick="setModel('11',this)">iPhone 11</button>
+            <button class="filter-btn" onclick="setModel('12',this)">iPhone 12</button>
+            <button class="filter-btn" onclick="setModel('13',this)">iPhone 13</button>
+            <button class="filter-btn" onclick="setModel('14',this)">iPhone 14</button>
+            <button class="filter-btn" onclick="setModel('15',this)">iPhone 15</button>
+            <button class="filter-btn" onclick="setModel('16',this)">iPhone 16</button>
+            <button class="filter-btn" onclick="setModel('17',this)">iPhone 17</button>
+        </div>
+        <div class="filter-label">Filter by Category</div>
+        <div class="filter-bar" id="catBar">
+            <button class="filter-btn active" onclick="setCat('all',this)">All</button>
+            <button class="filter-btn" onclick="setCat('cases',this)">Cases</button>
+            <button class="filter-btn" onclick="setCat('screen',this)">Screen Protectors</button>
+            <button class="filter-btn" onclick="setCat('camera',this)">Camera Protectors</button>
+            <button class="filter-btn" onclick="setCat('chargers',this)">Chargers &amp; Adapters</button>
+            <button class="filter-btn" onclick="setCat('audio',this)">Audio</button>
+            <button class="filter-btn" onclick="setCat('power',this)">Power Banks</button>
+            <button class="filter-btn" onclick="setCat('accessories',this)">Accessories</button>
+        </div>
+    </div>
+
+    <!-- PRODUCT GRID -->
+    <div class="products-wrap">
+        <div class="product-grid reveal" id="productGrid">
+
+            <!-- ── iPhone 11 ── -->
+            <div class="product-card" data-model="11" data-cat="cases">
+                <div class="product-cat">Cases</div>
+                <div class="product-model-tag">iPhone 11</div>
+                <span class="product-icon">📱</span>
+                <div class="product-name">Slim Protective Case</div>
+                <p class="product-desc">Military-grade drop protection, 1.2mm slim profile. Exact fit for iPhone 11.</p>
+                <button class="product-inquire" onclick="openModal('Slim Protective Case — iPhone 11','Cases')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="11" data-cat="cases">
+                <div class="product-cat">Cases</div>
+                <div class="product-model-tag">iPhone 11</div>
+                <span class="product-icon">🔲</span>
+                <div class="product-name">Clear Hard Case</div>
+                <p class="product-desc">Anti-yellowing crystal clear shell. Shows off your colour. iPhone 11 cut.</p>
+                <button class="product-inquire" onclick="openModal('Clear Hard Case — iPhone 11','Cases')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="11" data-cat="cases">
+                <div class="product-cat">Cases</div>
+                <div class="product-model-tag">iPhone 11</div>
+                <span class="product-icon">🛡️</span>
+                <div class="product-name">Rugged Armour Case</div>
+                <p class="product-desc">Dual-layer extreme drop protection. MIL-STD-810G tested. iPhone 11.</p>
+                <button class="product-inquire" onclick="openModal('Rugged Armour Case — iPhone 11','Cases')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="11" data-cat="cases">
+                <div class="product-cat">Cases</div>
+                <div class="product-model-tag">iPhone 11</div>
+                <span class="product-icon">👛</span>
+                <div class="product-name">Wallet Folio Case</div>
+                <p class="product-desc">3 card slots, magnetic stand closure. Full body protection. iPhone 11.</p>
+                <button class="product-inquire" onclick="openModal('Wallet Folio Case — iPhone 11','Cases')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="11" data-cat="screen">
+                <div class="product-cat">Screen Protectors</div>
+                <div class="product-model-tag">iPhone 11</div>
+                <span class="product-icon">🔍</span>
+                <div class="product-name">Tempered Glass</div>
+                <p class="product-desc">9H hardness, edge-to-edge fit. Installed perfectly in-store. iPhone 11.</p>
+                <button class="product-inquire" onclick="openModal('Tempered Glass — iPhone 11','Screen Protectors')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="11" data-cat="screen">
+                <div class="product-cat">Screen Protectors</div>
+                <div class="product-model-tag">iPhone 11</div>
+                <span class="product-icon">🔒</span>
+                <div class="product-name">Privacy Glass</div>
+                <p class="product-desc">Blocks side-angle views. 9H hardness. Installed in-store. iPhone 11.</p>
+                <button class="product-inquire" onclick="openModal('Privacy Glass — iPhone 11','Screen Protectors')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="11" data-cat="camera">
+                <div class="product-cat">Camera Protectors</div>
+                <div class="product-model-tag">iPhone 11</div>
+                <span class="product-icon">📷</span>
+                <div class="product-name">Camera Lens Protector</div>
+                <p class="product-desc">Tempered glass back camera guard, scratch and crack proof. iPhone 11 cut.</p>
+                <button class="product-inquire" onclick="openModal('Camera Lens Protector — iPhone 11','Camera Protectors')">Inquire →</button>
+            </div>
+
+            <!-- ── iPhone 12 ── -->
+            <div class="product-card" data-model="12" data-cat="cases">
+                <div class="product-cat">Cases</div>
+                <div class="product-model-tag">iPhone 12 / 12 Mini / 12 Pro / 12 Pro Max</div>
+                <span class="product-icon">📱</span>
+                <div class="product-name">Slim Protective Case</div>
+                <p class="product-desc">Military-grade drop protection, 1.2mm slim. MagSafe compatible. All iPhone 12 models.</p>
+                <button class="product-inquire" onclick="openModal('Slim Protective Case — iPhone 12','Cases')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="12" data-cat="cases">
+                <div class="product-cat">Cases</div>
+                <div class="product-model-tag">iPhone 12 / 12 Mini / 12 Pro / 12 Pro Max</div>
+                <span class="product-icon">🔲</span>
+                <div class="product-name">Clear MagSafe Case</div>
+                <p class="product-desc">MagSafe compatible, anti-yellowing crystal clear. All iPhone 12 series.</p>
+                <button class="product-inquire" onclick="openModal('Clear MagSafe Case — iPhone 12','Cases')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="12" data-cat="cases">
+                <div class="product-cat">Cases</div>
+                <div class="product-model-tag">iPhone 12 / 12 Mini / 12 Pro / 12 Pro Max</div>
+                <span class="product-icon">🛡️</span>
+                <div class="product-name">Rugged Armour Case</div>
+                <p class="product-desc">Dual-layer MIL-STD-810G drop tested. MagSafe compatible. iPhone 12 series.</p>
+                <button class="product-inquire" onclick="openModal('Rugged Armour Case — iPhone 12','Cases')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="12" data-cat="cases">
+                <div class="product-cat">Cases</div>
+                <div class="product-model-tag">iPhone 12 / 12 Mini / 12 Pro / 12 Pro Max</div>
+                <span class="product-icon">👛</span>
+                <div class="product-name">Wallet Folio Case</div>
+                <p class="product-desc">3 card slots, magnetic closure stand. iPhone 12 series all models.</p>
+                <button class="product-inquire" onclick="openModal('Wallet Folio Case — iPhone 12','Cases')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="12" data-cat="screen">
+                <div class="product-cat">Screen Protectors</div>
+                <div class="product-model-tag">iPhone 12 / 12 Mini / 12 Pro / 12 Pro Max</div>
+                <span class="product-icon">🔍</span>
+                <div class="product-name">Tempered Glass</div>
+                <p class="product-desc">9H hardness edge-to-edge. Installed in-store for all iPhone 12 models.</p>
+                <button class="product-inquire" onclick="openModal('Tempered Glass — iPhone 12','Screen Protectors')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="12" data-cat="screen">
+                <div class="product-cat">Screen Protectors</div>
+                <div class="product-model-tag">iPhone 12 / 12 Mini / 12 Pro / 12 Pro Max</div>
+                <span class="product-icon">🔒</span>
+                <div class="product-name">Privacy Glass</div>
+                <p class="product-desc">Side-angle blocking privacy glass. iPhone 12 series all models.</p>
+                <button class="product-inquire" onclick="openModal('Privacy Glass — iPhone 12','Screen Protectors')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="12" data-cat="camera">
+                <div class="product-cat">Camera Protectors</div>
+                <div class="product-model-tag">iPhone 12 / 12 Mini / 12 Pro / 12 Pro Max</div>
+                <span class="product-icon">📷</span>
+                <div class="product-name">Camera Lens Protector</div>
+                <p class="product-desc">Tempered glass back camera guard. Exact cut for each iPhone 12 model.</p>
+                <button class="product-inquire" onclick="openModal('Camera Lens Protector — iPhone 12','Camera Protectors')">Inquire →</button>
+            </div>
+
+            <!-- ── iPhone 13 ── -->
+            <div class="product-card" data-model="13" data-cat="cases">
+                <div class="product-cat">Cases</div>
+                <div class="product-model-tag">iPhone 13 / 13 Mini / 13 Pro / 13 Pro Max</div>
+                <span class="product-icon">📱</span>
+                <div class="product-name">Slim Protective Case</div>
+                <p class="product-desc">1.2mm slim military-grade drop protection. MagSafe compatible. iPhone 13 series.</p>
+                <button class="product-inquire" onclick="openModal('Slim Protective Case — iPhone 13','Cases')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="13" data-cat="cases">
+                <div class="product-cat">Cases</div>
+                <div class="product-model-tag">iPhone 13 / 13 Mini / 13 Pro / 13 Pro Max</div>
+                <span class="product-icon">🔲</span>
+                <div class="product-name">Clear MagSafe Case</div>
+                <p class="product-desc">MagSafe compatible, anti-yellowing crystal clear shell. iPhone 13 series.</p>
+                <button class="product-inquire" onclick="openModal('Clear MagSafe Case — iPhone 13','Cases')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="13" data-cat="cases">
+                <div class="product-cat">Cases</div>
+                <div class="product-model-tag">iPhone 13 / 13 Mini / 13 Pro / 13 Pro Max</div>
+                <span class="product-icon">🛡️</span>
+                <div class="product-name">Rugged Armour Case</div>
+                <p class="product-desc">Dual-layer extreme drop protection. MagSafe compatible. iPhone 13 series.</p>
+                <button class="product-inquire" onclick="openModal('Rugged Armour Case — iPhone 13','Cases')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="13" data-cat="cases">
+                <div class="product-cat">Cases</div>
+                <div class="product-model-tag">iPhone 13 / 13 Mini / 13 Pro / 13 Pro Max</div>
+                <span class="product-icon">👛</span>
+                <div class="product-name">Wallet Folio Case</div>
+                <p class="product-desc">3 card slots, magnetic closure stand. All iPhone 13 models available.</p>
+                <button class="product-inquire" onclick="openModal('Wallet Folio Case — iPhone 13','Cases')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="13" data-cat="screen">
+                <div class="product-cat">Screen Protectors</div>
+                <div class="product-model-tag">iPhone 13 / 13 Mini / 13 Pro / 13 Pro Max</div>
+                <span class="product-icon">🔍</span>
+                <div class="product-name">Tempered Glass</div>
+                <p class="product-desc">9H hardness, edge-to-edge. Installed in-store. All iPhone 13 models.</p>
+                <button class="product-inquire" onclick="openModal('Tempered Glass — iPhone 13','Screen Protectors')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="13" data-cat="screen">
+                <div class="product-cat">Screen Protectors</div>
+                <div class="product-model-tag">iPhone 13 / 13 Mini / 13 Pro / 13 Pro Max</div>
+                <span class="product-icon">🔒</span>
+                <div class="product-name">Privacy Glass</div>
+                <p class="product-desc">Side-angle blocking privacy glass. All iPhone 13 models.</p>
+                <button class="product-inquire" onclick="openModal('Privacy Glass — iPhone 13','Screen Protectors')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="13" data-cat="camera">
+                <div class="product-cat">Camera Protectors</div>
+                <div class="product-model-tag">iPhone 13 / 13 Mini / 13 Pro / 13 Pro Max</div>
+                <span class="product-icon">📷</span>
+                <div class="product-name">Camera Lens Protector</div>
+                <p class="product-desc">Tempered glass back camera guard. Exact cut for each iPhone 13 variant.</p>
+                <button class="product-inquire" onclick="openModal('Camera Lens Protector — iPhone 13','Camera Protectors')">Inquire →</button>
+            </div>
+
+            <!-- ── iPhone 14 ── -->
+            <div class="product-card" data-model="14" data-cat="cases">
+                <div class="product-cat">Cases</div>
+                <div class="product-model-tag">iPhone 14 / 14 Plus / 14 Pro / 14 Pro Max</div>
+                <span class="product-icon">📱</span>
+                <div class="product-name">Slim Protective Case</div>
+                <p class="product-desc">Military-grade slim drop protection. MagSafe compatible. iPhone 14 series.</p>
+                <button class="product-inquire" onclick="openModal('Slim Protective Case — iPhone 14','Cases')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="14" data-cat="cases">
+                <div class="product-cat">Cases</div>
+                <div class="product-model-tag">iPhone 14 / 14 Plus / 14 Pro / 14 Pro Max</div>
+                <span class="product-icon">🔲</span>
+                <div class="product-name">Clear MagSafe Case</div>
+                <p class="product-desc">MagSafe compatible, anti-yellowing clear shell. iPhone 14 series all models.</p>
+                <button class="product-inquire" onclick="openModal('Clear MagSafe Case — iPhone 14','Cases')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="14" data-cat="cases">
+                <div class="product-cat">Cases</div>
+                <div class="product-model-tag">iPhone 14 / 14 Plus / 14 Pro / 14 Pro Max</div>
+                <span class="product-icon">🛡️</span>
+                <div class="product-name">Rugged Armour Case</div>
+                <p class="product-desc">Dual-layer MIL-STD-810G drop tested. MagSafe compatible. iPhone 14 series.</p>
+                <button class="product-inquire" onclick="openModal('Rugged Armour Case — iPhone 14','Cases')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="14" data-cat="cases">
+                <div class="product-cat">Cases</div>
+                <div class="product-model-tag">iPhone 14 / 14 Plus / 14 Pro / 14 Pro Max</div>
+                <span class="product-icon">👛</span>
+                <div class="product-name">Wallet Folio Case</div>
+                <p class="product-desc">3 card slots, magnetic closure stand. All iPhone 14 models available.</p>
+                <button class="product-inquire" onclick="openModal('Wallet Folio Case — iPhone 14','Cases')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="14" data-cat="screen">
+                <div class="product-cat">Screen Protectors</div>
+                <div class="product-model-tag">iPhone 14 / 14 Plus / 14 Pro / 14 Pro Max</div>
+                <span class="product-icon">🔍</span>
+                <div class="product-name">Tempered Glass</div>
+                <p class="product-desc">9H hardness, Dynamic Island compatible cutout. Installed in-store. iPhone 14 series.</p>
+                <button class="product-inquire" onclick="openModal('Tempered Glass — iPhone 14','Screen Protectors')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="14" data-cat="screen">
+                <div class="product-cat">Screen Protectors</div>
+                <div class="product-model-tag">iPhone 14 / 14 Plus / 14 Pro / 14 Pro Max</div>
+                <span class="product-icon">🔒</span>
+                <div class="product-name">Privacy Glass</div>
+                <p class="product-desc">Side-angle blocking, Dynamic Island compatible. All iPhone 14 models.</p>
+                <button class="product-inquire" onclick="openModal('Privacy Glass — iPhone 14','Screen Protectors')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="14" data-cat="camera">
+                <div class="product-cat">Camera Protectors</div>
+                <div class="product-model-tag">iPhone 14 / 14 Plus / 14 Pro / 14 Pro Max</div>
+                <span class="product-icon">📷</span>
+                <div class="product-name">Camera Lens Protector</div>
+                <p class="product-desc">Tempered glass back camera guard. Exact cut per iPhone 14 variant.</p>
+                <button class="product-inquire" onclick="openModal('Camera Lens Protector — iPhone 14','Camera Protectors')">Inquire →</button>
+            </div>
+
+            <!-- ── iPhone 15 ── -->
+            <div class="product-card" data-model="15" data-cat="cases">
+                <div class="product-cat">Cases</div>
+                <div class="product-model-tag">iPhone 15 / 15 Plus / 15 Pro / 15 Pro Max</div>
+                <span class="product-icon">📱</span>
+                <div class="product-name">Slim Protective Case</div>
+                <p class="product-desc">Military-grade slim protection. MagSafe compatible. USB-C pass-through. iPhone 15 series.</p>
+                <button class="product-inquire" onclick="openModal('Slim Protective Case — iPhone 15','Cases')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="15" data-cat="cases">
+                <div class="product-cat">Cases</div>
+                <div class="product-model-tag">iPhone 15 / 15 Plus / 15 Pro / 15 Pro Max</div>
+                <span class="product-icon">🔲</span>
+                <div class="product-name">Clear MagSafe Case</div>
+                <p class="product-desc">MagSafe compatible, anti-yellowing crystal clear. iPhone 15 series all models.</p>
+                <button class="product-inquire" onclick="openModal('Clear MagSafe Case — iPhone 15','Cases')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="15" data-cat="cases">
+                <div class="product-cat">Cases</div>
+                <div class="product-model-tag">iPhone 15 / 15 Plus / 15 Pro / 15 Pro Max</div>
+                <span class="product-icon">🛡️</span>
+                <div class="product-name">Rugged Armour Case</div>
+                <p class="product-desc">Dual-layer MIL-STD-810G drop protection. MagSafe compatible. iPhone 15 series.</p>
+                <button class="product-inquire" onclick="openModal('Rugged Armour Case — iPhone 15','Cases')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="15" data-cat="cases">
+                <div class="product-cat">Cases</div>
+                <div class="product-model-tag">iPhone 15 / 15 Plus / 15 Pro / 15 Pro Max</div>
+                <span class="product-icon">👛</span>
+                <div class="product-name">Wallet Folio Case</div>
+                <p class="product-desc">3 card slots, magnetic closure stand. All iPhone 15 models available.</p>
+                <button class="product-inquire" onclick="openModal('Wallet Folio Case — iPhone 15','Cases')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="15" data-cat="screen">
+                <div class="product-cat">Screen Protectors</div>
+                <div class="product-model-tag">iPhone 15 / 15 Plus / 15 Pro / 15 Pro Max</div>
+                <span class="product-icon">🔍</span>
+                <div class="product-name">Tempered Glass</div>
+                <p class="product-desc">9H hardness, Dynamic Island cutout. Installed in-store. All iPhone 15 models.</p>
+                <button class="product-inquire" onclick="openModal('Tempered Glass — iPhone 15','Screen Protectors')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="15" data-cat="screen">
+                <div class="product-cat">Screen Protectors</div>
+                <div class="product-model-tag">iPhone 15 / 15 Plus / 15 Pro / 15 Pro Max</div>
+                <span class="product-icon">🔒</span>
+                <div class="product-name">Privacy Glass</div>
+                <p class="product-desc">Side-angle blocking privacy glass. Dynamic Island compatible. iPhone 15 series.</p>
+                <button class="product-inquire" onclick="openModal('Privacy Glass — iPhone 15','Screen Protectors')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="15" data-cat="camera">
+                <div class="product-cat">Camera Protectors</div>
+                <div class="product-model-tag">iPhone 15 / 15 Plus / 15 Pro / 15 Pro Max</div>
+                <span class="product-icon">📷</span>
+                <div class="product-name">Camera Lens Protector</div>
+                <p class="product-desc">Tempered glass back camera guard. Exact cut for each iPhone 15 variant.</p>
+                <button class="product-inquire" onclick="openModal('Camera Lens Protector — iPhone 15','Camera Protectors')">Inquire →</button>
+            </div>
+
+            <!-- ── iPhone 16 ── -->
+            <div class="product-card" data-model="16" data-cat="cases">
+                <div class="product-cat">Cases</div>
+                <div class="product-model-tag">iPhone 16 / 16 Plus / 16 Pro / 16 Pro Max</div>
+                <span class="product-icon">📱</span>
+                <div class="product-name">Slim Protective Case</div>
+                <p class="product-desc">Slim military-grade protection. MagSafe + Action Button compatible. iPhone 16 series.</p>
+                <button class="product-inquire" onclick="openModal('Slim Protective Case — iPhone 16','Cases')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="16" data-cat="cases">
+                <div class="product-cat">Cases</div>
+                <div class="product-model-tag">iPhone 16 / 16 Plus / 16 Pro / 16 Pro Max</div>
+                <span class="product-icon">🔲</span>
+                <div class="product-name">Clear MagSafe Case</div>
+                <p class="product-desc">MagSafe compatible, anti-yellowing. Camera Control cutout. iPhone 16 series.</p>
+                <button class="product-inquire" onclick="openModal('Clear MagSafe Case — iPhone 16','Cases')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="16" data-cat="cases">
+                <div class="product-cat">Cases</div>
+                <div class="product-model-tag">iPhone 16 / 16 Plus / 16 Pro / 16 Pro Max</div>
+                <span class="product-icon">🛡️</span>
+                <div class="product-name">Rugged Armour Case</div>
+                <p class="product-desc">Dual-layer MIL-STD-810G protection. MagSafe + Action Button. iPhone 16 series.</p>
+                <button class="product-inquire" onclick="openModal('Rugged Armour Case — iPhone 16','Cases')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="16" data-cat="cases">
+                <div class="product-cat">Cases</div>
+                <div class="product-model-tag">iPhone 16 / 16 Plus / 16 Pro / 16 Pro Max</div>
+                <span class="product-icon">👛</span>
+                <div class="product-name">Wallet Folio Case</div>
+                <p class="product-desc">3 card slots, magnetic closure stand. All iPhone 16 models available.</p>
+                <button class="product-inquire" onclick="openModal('Wallet Folio Case — iPhone 16','Cases')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="16" data-cat="screen">
+                <div class="product-cat">Screen Protectors</div>
+                <div class="product-model-tag">iPhone 16 / 16 Plus / 16 Pro / 16 Pro Max</div>
+                <span class="product-icon">🔍</span>
+                <div class="product-name">Tempered Glass</div>
+                <p class="product-desc">9H hardness, Dynamic Island precise cutout. Installed in-store. iPhone 16 series.</p>
+                <button class="product-inquire" onclick="openModal('Tempered Glass — iPhone 16','Screen Protectors')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="16" data-cat="screen">
+                <div class="product-cat">Screen Protectors</div>
+                <div class="product-model-tag">iPhone 16 / 16 Plus / 16 Pro / 16 Pro Max</div>
+                <span class="product-icon">🔒</span>
+                <div class="product-name">Privacy Glass</div>
+                <p class="product-desc">Side-angle blocking, Dynamic Island compatible. iPhone 16 all models.</p>
+                <button class="product-inquire" onclick="openModal('Privacy Glass — iPhone 16','Screen Protectors')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="16" data-cat="camera">
+                <div class="product-cat">Camera Protectors</div>
+                <div class="product-model-tag">iPhone 16 / 16 Plus / 16 Pro / 16 Pro Max</div>
+                <span class="product-icon">📷</span>
+                <div class="product-name">Camera Lens Protector</div>
+                <p class="product-desc">Tempered glass camera guard with precise cut for each iPhone 16 variant.</p>
+                <button class="product-inquire" onclick="openModal('Camera Lens Protector — iPhone 16','Camera Protectors')">Inquire →</button>
+            </div>
+
+            <!-- ── iPhone 17 ── -->
+            <div class="product-card" data-model="17" data-cat="cases">
+                <div class="product-cat">Cases</div>
+                <div class="product-model-tag">iPhone 17 / 17 Air / 17 Pro / 17 Pro Max</div>
+                <span class="product-icon">📱</span>
+                <div class="product-name">Slim Protective Case</div>
+                <p class="product-desc">Military-grade slim protection. MagSafe compatible. Exact fit for iPhone 17 series.</p>
+                <button class="product-inquire" onclick="openModal('Slim Protective Case — iPhone 17','Cases')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="17" data-cat="cases">
+                <div class="product-cat">Cases</div>
+                <div class="product-model-tag">iPhone 17 / 17 Air / 17 Pro / 17 Pro Max</div>
+                <span class="product-icon">🔲</span>
+                <div class="product-name">Clear MagSafe Case</div>
+                <p class="product-desc">Anti-yellowing crystal clear, MagSafe compatible. All iPhone 17 models.</p>
+                <button class="product-inquire" onclick="openModal('Clear MagSafe Case — iPhone 17','Cases')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="17" data-cat="cases">
+                <div class="product-cat">Cases</div>
+                <div class="product-model-tag">iPhone 17 / 17 Air / 17 Pro / 17 Pro Max</div>
+                <span class="product-icon">🛡️</span>
+                <div class="product-name">Rugged Armour Case</div>
+                <p class="product-desc">Dual-layer extreme drop protection. MagSafe compatible. iPhone 17 series.</p>
+                <button class="product-inquire" onclick="openModal('Rugged Armour Case — iPhone 17','Cases')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="17" data-cat="cases">
+                <div class="product-cat">Cases</div>
+                <div class="product-model-tag">iPhone 17 / 17 Air / 17 Pro / 17 Pro Max</div>
+                <span class="product-icon">👛</span>
+                <div class="product-name">Wallet Folio Case</div>
+                <p class="product-desc">3 card slots, magnetic closure stand. All iPhone 17 models available.</p>
+                <button class="product-inquire" onclick="openModal('Wallet Folio Case — iPhone 17','Cases')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="17" data-cat="screen">
+                <div class="product-cat">Screen Protectors</div>
+                <div class="product-model-tag">iPhone 17 / 17 Air / 17 Pro / 17 Pro Max</div>
+                <span class="product-icon">🔍</span>
+                <div class="product-name">Tempered Glass</div>
+                <p class="product-desc">9H hardness, edge-to-edge. Professionally installed in-store. iPhone 17 series.</p>
+                <button class="product-inquire" onclick="openModal('Tempered Glass — iPhone 17','Screen Protectors')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="17" data-cat="screen">
+                <div class="product-cat">Screen Protectors</div>
+                <div class="product-model-tag">iPhone 17 / 17 Air / 17 Pro / 17 Pro Max</div>
+                <span class="product-icon">🔒</span>
+                <div class="product-name">Privacy Glass</div>
+                <p class="product-desc">Side-angle blocking privacy protection. All iPhone 17 models available.</p>
+                <button class="product-inquire" onclick="openModal('Privacy Glass — iPhone 17','Screen Protectors')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="17" data-cat="camera">
+                <div class="product-cat">Camera Protectors</div>
+                <div class="product-model-tag">iPhone 17 / 17 Air / 17 Pro / 17 Pro Max</div>
+                <span class="product-icon">📷</span>
+                <div class="product-name">Camera Lens Protector</div>
+                <p class="product-desc">Tempered glass back camera guard. Exact cut per iPhone 17 variant.</p>
+                <button class="product-inquire" onclick="openModal('Camera Lens Protector — iPhone 17','Camera Protectors')">Inquire →</button>
+            </div>
+
+            <!-- ── UNIVERSAL — Chargers & Adapters ── -->
+            <div class="product-card" data-model="all" data-cat="chargers">
+                <div class="product-cat">Chargers &amp; Adapters</div>
+                <div class="product-model-tag">All iPhone Models</div>
+                <span class="product-icon">⚡</span>
+                <div class="product-name">20W USB-C Power Adapter</div>
+                <p class="product-desc">Apple-spec fast charging wall adapter. Full charge in under 90 minutes.</p>
+                <button class="product-inquire" onclick="openModal('20W USB-C Power Adapter','Chargers')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="all" data-cat="chargers">
+                <div class="product-cat">Chargers &amp; Adapters</div>
+                <div class="product-model-tag">iPhone 12 and Above</div>
+                <span class="product-icon">🔮</span>
+                <div class="product-name">MagSafe Wireless Charger</div>
+                <p class="product-desc">15W magnetic charging pad. Snaps perfectly to iPhone 12 and up.</p>
+                <button class="product-inquire" onclick="openModal('MagSafe Wireless Charger','Chargers')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="all" data-cat="chargers">
+                <div class="product-cat">Chargers &amp; Adapters</div>
+                <div class="product-model-tag">iPhone 11 – 15 Series</div>
+                <span class="product-icon">🔌</span>
+                <div class="product-name">USB-C to Lightning Cable</div>
+                <p class="product-desc">Braided nylon, MFi certified fast charge. Available in 1m &amp; 2m.</p>
+                <button class="product-inquire" onclick="openModal('USB-C to Lightning Cable','Chargers')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="all" data-cat="chargers">
+                <div class="product-cat">Chargers &amp; Adapters</div>
+                <div class="product-model-tag">iPhone 15 and Above</div>
+                <span class="product-icon">🔌</span>
+                <div class="product-name">USB-C to USB-C Cable</div>
+                <p class="product-desc">Braided, 100W fast charge. For iPhone 15, 16, 17 with USB-C port. 1m &amp; 2m.</p>
+                <button class="product-inquire" onclick="openModal('USB-C to USB-C Cable iPhone','Chargers')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="all" data-cat="chargers">
+                <div class="product-cat">Chargers &amp; Adapters</div>
+                <div class="product-model-tag">All iPhone Models</div>
+                <span class="product-icon">🔋</span>
+                <div class="product-name">35W Dual USB-C Adapter</div>
+                <p class="product-desc">Charge iPhone + AirPods simultaneously. Compact, travel-ready.</p>
+                <button class="product-inquire" onclick="openModal('35W Dual USB-C Adapter','Chargers')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="all" data-cat="chargers">
+                <div class="product-cat">Chargers &amp; Adapters</div>
+                <div class="product-model-tag">iPhone 11 – 14 Series</div>
+                <span class="product-icon">🎵</span>
+                <div class="product-name">Lightning to 3.5mm Adapter</div>
+                <p class="product-desc">Use any wired headphones with your iPhone. Plug and play, no lag.</p>
+                <button class="product-inquire" onclick="openModal('Lightning to 3.5mm Adapter','Chargers')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="all" data-cat="chargers">
+                <div class="product-cat">Chargers &amp; Adapters</div>
+                <div class="product-model-tag">All iPhone Models</div>
+                <span class="product-icon">🚗</span>
+                <div class="product-name">Car Charger — Fast Charge</div>
+                <p class="product-desc">20W USB-C car adapter. Fast charge iPhone on the road. Fits any vehicle.</p>
+                <button class="product-inquire" onclick="openModal('Car Charger iPhone','Chargers')">Inquire →</button>
+            </div>
+
+            <!-- ── UNIVERSAL — Audio ── -->
+            <div class="product-card" data-model="all" data-cat="audio">
+                <div class="product-cat">Audio</div>
+                <div class="product-model-tag">iPhone 11 – 14 Series</div>
+                <span class="product-icon">🎧</span>
+                <div class="product-name">Lightning EarPods</div>
+                <p class="product-desc">Wired in-ear, clear audio, built-in mic and volume control. Plug in and play.</p>
+                <button class="product-inquire" onclick="openModal('Lightning EarPods','Audio')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="all" data-cat="audio">
+                <div class="product-cat">Audio</div>
+                <div class="product-model-tag">All iPhone Models</div>
+                <span class="product-icon">🎵</span>
+                <div class="product-name">Wireless Earbuds</div>
+                <p class="product-desc">ANC, 30hr battery with case, IPX5 water resistant. Works with all iPhones.</p>
+                <button class="product-inquire" onclick="openModal('Wireless Earbuds iPhone','Audio')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="all" data-cat="audio">
+                <div class="product-cat">Audio</div>
+                <div class="product-model-tag">All iPhone Models</div>
+                <span class="product-icon">🎼</span>
+                <div class="product-name">Over-Ear BT Headphones</div>
+                <p class="product-desc">Foldable, 40hr battery, premium sound. Bluetooth 5.3. Works with all iPhones.</p>
+                <button class="product-inquire" onclick="openModal('Over-Ear BT Headphones','Audio')">Inquire →</button>
+            </div>
+
+            <!-- ── UNIVERSAL — Power Banks ── -->
+            <div class="product-card" data-model="all" data-cat="power">
+                <div class="product-cat">Power Banks</div>
+                <div class="product-model-tag">iPhone 12 and Above</div>
+                <span class="product-icon">🔮</span>
+                <div class="product-name">MagSafe Power Bank</div>
+                <p class="product-desc">5,000mAh snaps to iPhone magnetically. Ultra-slim, no cables needed.</p>
+                <button class="product-inquire" onclick="openModal('MagSafe Power Bank','Power Banks')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="all" data-cat="power">
+                <div class="product-cat">Power Banks</div>
+                <div class="product-model-tag">All iPhone Models</div>
+                <span class="product-icon">🔋</span>
+                <div class="product-name">10,000mAh Slim Bank</div>
+                <p class="product-desc">3× iPhone charges. 22.5W fast charge. Pocket-friendly build.</p>
+                <button class="product-inquire" onclick="openModal('10,000mAh Power Bank iPhone','Power Banks')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="all" data-cat="power">
+                <div class="product-cat">Power Banks</div>
+                <div class="product-model-tag">All iPhone Models</div>
+                <span class="product-icon">⚡</span>
+                <div class="product-name">20,000mAh Travel Bank</div>
+                <p class="product-desc">65W USB-C charges iPhone and laptop. Full-day power for heavy users.</p>
+                <button class="product-inquire" onclick="openModal('20,000mAh Travel Bank iPhone','Power Banks')">Inquire →</button>
+            </div>
+
+            <!-- ── UNIVERSAL — Accessories ── -->
+            <div class="product-card" data-model="all" data-cat="accessories">
+                <div class="product-cat">Accessories</div>
+                <div class="product-model-tag">iPhone 12 and Above</div>
+                <span class="product-icon">🔵</span>
+                <div class="product-name">MagSafe PopSocket</div>
+                <p class="product-desc">Magnetic attach/detach grip and stand. Wireless charge-through compatible.</p>
+                <button class="product-inquire" onclick="openModal('MagSafe PopSocket','Accessories')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="all" data-cat="accessories">
+                <div class="product-cat">Accessories</div>
+                <div class="product-model-tag">iPhone 12 and Above</div>
+                <span class="product-icon">🚗</span>
+                <div class="product-name">MagSafe Car Mount</div>
+                <p class="product-desc">Strong magnetic vent + dashboard mount. Snaps to iPhone 12 and up instantly.</p>
+                <button class="product-inquire" onclick="openModal('MagSafe Car Mount','Accessories')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="all" data-cat="accessories">
+                <div class="product-cat">Accessories</div>
+                <div class="product-model-tag">All iPhone Models</div>
+                <span class="product-icon">💍</span>
+                <div class="product-name">Metal Ring Stand</div>
+                <p class="product-desc">Adhesive 360° ring grip and kickstand. Works on any iPhone case.</p>
+                <button class="product-inquire" onclick="openModal('Metal Ring Stand','Accessories')">Inquire →</button>
+            </div>
+            <div class="product-card" data-model="all" data-cat="accessories">
+                <div class="product-cat">Accessories</div>
+                <div class="product-model-tag">All iPhone Models</div>
+                <span class="product-icon">✨</span>
+                <div class="product-name">Screen Cleaning Kit</div>
+                <p class="product-desc">Microfiber cloth + alcohol-free spray. Safe on all iPhone screens and glass.</p>
+                <button class="product-inquire" onclick="openModal('Screen Cleaning Kit','Accessories')">Inquire →</button>
+            </div>
+
+        </div>
+        <div class="no-results" id="noResults">No products match that filter. Try selecting a different model or category.</div>
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+        <div style="background:var(--card);border:1px solid var(--border);padding:3rem;max-width:500px;width:90%;position:relative;">
+            <button onclick="closeModal()" style="position:absolute;top:1.2rem;right:1.4rem;background:none;border:none;color:var(--gray);font-size:1.2rem;cursor:pointer;">✕</button>
+            <div id="modalContent">
+                <div id="modalCat" style="font-size:.62rem;color:rgba(184,127,255,.5);letter-spacing:.2em;text-transform:uppercase;margin-bottom:.5rem;"></div>
+                <div id="modalName" style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:400;margin-bottom:1.8rem;"></div>
+                <label style="font-size:.62rem;font-weight:300;letter-spacing:.2em;text-transform:uppercase;color:var(--gray);margin-bottom:.5rem;display:block;">Your Name</label>
+                <input type="text" id="mName" placeholder="John Smith" style="background:#fff;border:1px solid var(--border);padding:.85rem 1rem;color:var(--white);width:100%;font-family:'Josefin Sans',sans-serif;font-size:.85rem;outline:none;margin-bottom:1.2rem;">
+                <label style="font-size:.62rem;font-weight:300;letter-spacing:.2em;text-transform:uppercase;color:var(--gray);margin-bottom:.5rem;display:block;">Phone Number</label>
+                <input type="tel" id="mPhone" placeholder="(613) 000-0000" style="background:#fff;border:1px solid var(--border);padding:.85rem 1rem;color:var(--white);width:100%;font-family:'Josefin Sans',sans-serif;font-size:.85rem;outline:none;margin-bottom:1.2rem;">
+                <label style="font-size:.62rem;font-weight:300;letter-spacing:.2em;text-transform:uppercase;color:var(--gray);margin-bottom:.5rem;display:block;">Message (optional)</label>
+                <textarea id="mMsg" placeholder="Questions, quantities, specific model..." style="background:#fff;border:1px solid var(--border);padding:.85rem 1rem;color:var(--white);width:100%;font-family:'Josefin Sans',sans-serif;font-size:.85rem;outline:none;margin-bottom:1.2rem;resize:vertical;min-height:80px;line-height:1.6;"></textarea>
+                <button onclick="submitInquiry()" style="width:100%;background:var(--violet);color:var(--black);border:none;padding:.9rem;font-family:'Josefin Sans',sans-serif;font-size:.72rem;font-weight:400;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;">Send Inquiry</button>
+            </div>
+            <div id="modalSuccess" style="display:none;text-align:center;padding:1.5rem 0;">
+                <div style="font-size:2rem;margin-bottom:.8rem;">✓</div>
+                <div style="font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:.5rem;">Inquiry Sent</div>
+                <p style="font-size:.85rem;color:var(--gray);font-weight:200;line-height:1.8;">We will reach out shortly to confirm availability and pricing.</p>
+            </div>
+        </div>
+    </div>
+
+    <a href="contact.html" class="float-btn">Contact Us</a>
+
+    <footer>
+        <div class="footer-top">
+            <div>
+                <a href="index.html" class="nav-logo"><svg width="26" height="15" viewBox="0 0 72 38" fill="none">
+                        <polyline points="4,34 4,10 20,24 36,4 52,24 68,10 68,34" stroke="rgba(184,127,255,0.75)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                        <line x1="4" y1="34" x2="68" y2="34" stroke="rgba(184,127,255,0.3)" stroke-width="1" />
+                        <circle cx="36" cy="4" r="3" fill="rgba(220,190,255,1)" />
+                        <circle cx="4" cy="10" r="2" fill="rgba(184,127,255,0.6)" />
+                        <circle cx="68" cy="10" r="2" fill="rgba(184,127,255,0.6)" />
+                    </svg>
+                    <div class="nav-logo-text">NM<span>WIRELESS</span></div>
+                </a>
+                <p class="footer-brand-desc">Brockville's premium tech repair studio. Phones, laptops, consoles — fixed fast, done right.</p>
+                <p class="footer-tagline">Your Device. Elevated.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="services.html">Phone Repair</a></li>
+                    <li><a href="services.html">Laptop Repair</a></li>
+                    <li><a href="services.html">Console Repair</a></li>
+                    <li><a href="services.html">Data Recovery</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Store</h4>
+                <ul>
+                    <li><a href="store-iphone.html">iPhone Store</a></li>
+                    <li><a href="store-samsung.html">Samsung Store</a></li>
+                    <li><a href="custom-cases.html">Custom Cases</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="booking.html">Book a Repair</a></li>
+                    <li><a href="contact.html">Find Us</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-copy">© 2025 <span>NM Wireless</span>. All rights reserved. Brockville, ON.</div>
+            <div class="footer-copy"><span>Your Device. Elevated.</span></div>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', () => { const n = document.getElementById('nav'); if (n) n.classList.toggle('scrolled', scrollY > 60); });
+        function toggleMobile() { const links = document.querySelector('.nav-links'); const btn = document.getElementById('hamburger'); links.classList.toggle('open'); btn.classList.toggle('open', links.classList.contains('open')); }
+        document.querySelectorAll('.nav-links a').forEach(a => { a.addEventListener('click', () => { document.querySelector('.nav-links').classList.remove('open'); document.getElementById('hamburger').classList.remove('open'); }); });
+        const obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: .08 });
+        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+        let activeModel = 'all', activeCat = 'all';
+        function setModel(m, btn) {
+            activeModel = m;
+            document.querySelectorAll('#modelBar .filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            applyFilters();
+        }
+        function setCat(c, btn) {
+            activeCat = c;
+            document.querySelectorAll('#catBar .filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            applyFilters();
+        }
+        function applyFilters() {
+            let visible = 0;
+            document.querySelectorAll('.product-card').forEach(c => {
+                const modelMatch = activeModel === 'all' || c.dataset.model === activeModel || c.dataset.model === 'all';
+                const catMatch = activeCat === 'all' || c.dataset.cat === activeCat;
+                const show = modelMatch && catMatch;
+                c.classList.toggle('hidden', !show);
+                if (show) visible++;
+            });
+            document.getElementById('noResults').classList.toggle('visible', visible === 0);
+        }
+        function openModal(name, cat) {
+            document.getElementById('modalName').textContent = name;
+            document.getElementById('modalCat').textContent = cat;
+            document.getElementById('modalContent').style.display = 'block';
+            document.getElementById('modalContent').style.opacity = '1';
+            document.getElementById('modalSuccess').style.display = 'none';
+            document.getElementById('mName').value = ''; document.getElementById('mPhone').value = ''; document.getElementById('mMsg').value = '';
+            document.getElementById('modalOverlay').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); document.body.style.overflow = ''; }
+        function closeModalOutside(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
+        function submitInquiry() {
+            document.getElementById('modalContent').style.opacity = '0';
+            document.getElementById('modalContent').style.transition = 'opacity .3s';
+            setTimeout(() => { document.getElementById('modalContent').style.display = 'none'; document.getElementById('modalSuccess').style.display = 'block'; }, 300);
+        }
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+    </script>
+</body>
+</html>
