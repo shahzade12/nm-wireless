@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services — NM Wireless</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Josefin+Sans:wght@100;200;300;400&family=Cormorant+Garamond:ital,wght@1,300&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --black: #F5F5F0;
+            --deep: #EEEDE8;
+            --card: #FFFFFF;
+            --card2: #F0EFE9;
+            --violet: #B87FFF;
+            --vglow: rgba(184, 127, 255, 0.12);
+            --white: #1A1A18;
+            --gray: #3A3A36;
+            --border: rgba(120, 80, 180, 0.18);
+        }
+
+        body {
+            background: var(--black);
+            color: var(--white);
+            font-family: 'Josefin Sans', sans-serif;
+            overflow-x: hidden;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 500;
+            padding: 1.2rem 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            background: rgba(245, 245, 240, 0.92);
+            backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border);
+            transition: padding .3s;
+        }
+
+        nav.scrolled {
+            padding: .9rem 3rem;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: .7rem;
+            text-decoration: none;
+        }
+
+        .nav-logo-text {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: 1.1rem;
+            letter-spacing: .12em;
+            text-indent: .12em;
+            color: var(--white);
+        }
+
+        .nav-logo-text span {
+            color: rgba(184, 127, 255, .65);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.6rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: var(--gray);
+            text-decoration: none;
+            transition: color .2s;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--white);
+        }
+
+        .nav-links .nav-book {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--violet);
+            padding: .48rem 1.1rem;
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 2px;
+            white-space: nowrap;
+            transition: background .25s, color .25s, box-shadow .25s;
+        }
+
+        .nav-links .nav-book:hover {
+            background: var(--violet);
+            color: var(--black);
+            box-shadow: 0 0 28px rgba(184, 127, 255, .4);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            flex-shrink: 0;
+        }
+
+        .hamburger span {
+            width: 22px;
+            height: 1.5px;
+            background: #1A1A18;
+            display: block;
+            transition: transform .3s, opacity .3s;
+        }
+
+        .hero {
+            padding: 11rem 5rem 7rem;
+            position: relative;
+            overflow: hidden;
+            background: var(--deep);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero-orb {
+            position: absolute;
+            width: 600px;
+            height: 400px;
+            top: 0;
+            right: -60px;
+            background: radial-gradient(ellipse, rgba(184, 127, 255, .15) 0%, transparent 70%);
+            pointer-events: none;
+            animation: breathe 6s ease-in-out infinite;
+        }
+
+        .hero-orb2 {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            bottom: -60px;
+            left: 10%;
+            background: radial-gradient(ellipse, rgba(120, 60, 220, .1) 0%, transparent 70%);
+            pointer-events: none;
+            animation: breathe 8s ease-in-out 2s infinite;
+        }
+
+        @keyframes breathe {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: .5;
+                transform: scale(1.1);
+            }
+        }
+
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(120, 80, 180, .06) 1px, transparent 1px), linear-gradient(90deg, rgba(120, 80, 180, .06) 1px, transparent 1px);
+            background-size: 80px 80px;
+            mask-image: radial-gradient(ellipse at 30% 40%, black 10%, transparent 70%);
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+            margin-bottom: 2rem;
+            animation: fadeUp .7s ease both;
+        }
+
+        .breadcrumb a {
+            font-size: .92rem;
+            font-weight: 300;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            color: var(--gray);
+            text-decoration: none;
+            transition: color .2s;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--violet);
+        }
+
+        .breadcrumb-sep {
+            color: var(--border);
+            font-size: 1.06rem;
+        }
+
+        .breadcrumb-cur {
+            font-size: .92rem;
+            font-weight: 300;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            color: var(--violet);
+        }
+
+        .hero-eyebrow {
+            font-size: .92rem;
+            font-weight: 300;
+            letter-spacing: .35em;
+            text-transform: uppercase;
+            color: var(--violet);
+            margin-bottom: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: .8rem;
+            animation: fadeUp .7s .1s ease both;
+        }
+
+        .hero-eyebrow::before {
+            content: '';
+            width: 20px;
+            height: 1px;
+            background: var(--violet);
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: clamp(2.8rem, 6vw, 6rem);
+            line-height: .95;
+            letter-spacing: .01em;
+            margin-bottom: 1.6rem;
+            animation: fadeUp .7s .2s ease both;
+        }
+
+        .hero-title em {
+            font-style: italic;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(130, 60, 220, .7);
+        }
+
+        .hero-sub {
+            font-size: 1.06rem;
+            font-weight: 300;
+            color: #555250;
+            max-width: 420px;
+            line-height: 1.85;
+            letter-spacing: .04em;
+            animation: fadeUp .7s .3s ease both;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .sec-label {
+            font-size: .92rem;
+            font-weight: 300;
+            letter-spacing: .3em;
+            text-transform: uppercase;
+            color: var(--violet);
+            display: flex;
+            align-items: center;
+            gap: .7rem;
+            margin-bottom: .8rem;
+        }
+
+        .sec-label::before {
+            content: '';
+            width: 18px;
+            height: 1px;
+            background: var(--violet);
+        }
+
+        .sec-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: clamp(1.8rem, 3.5vw, 3rem);
+            line-height: 1.05;
+            letter-spacing: .02em;
+        }
+
+        .btn-primary {
+            background: var(--violet);
+            color: var(--black);
+            padding: .85rem 2.2rem;
+            border-radius: 2px;
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: 1.06rem;
+            font-weight: 400;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 0 30px rgba(184, 127, 255, .3);
+            transition: transform .2s, box-shadow .2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 50px rgba(184, 127, 255, .5);
+        }
+
+        .btn-ghost {
+            color: var(--white);
+            padding: 1rem 2.2rem;
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: 1.02rem;
+            font-weight: 300;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: border-color .2s, color .2s;
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--violet);
+            color: var(--violet);
+        }
+
+        footer {
+            background: #E5E4DF;
+            border-top: 1px solid var(--border);
+            padding: 4rem 5rem 2.5rem;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand-desc {
+            font-size: 1.02rem;
+            color: var(--gray);
+            font-weight: 300;
+            line-height: 1.8;
+            margin-top: .9rem;
+            max-width: 240px;
+        }
+
+        .footer-tagline {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1.05rem;
+            color: rgba(184, 127, 255, .45);
+            margin-top: .5rem;
+        }
+
+        .footer-col h4 {
+            font-size: .92rem;
+            font-weight: 300;
+            letter-spacing: .25em;
+            text-transform: uppercase;
+            color: var(--violet);
+            margin-bottom: 1.3rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: .65rem;
+        }
+
+        .footer-col a {
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 1.02rem;
+            font-weight: 300;
+            letter-spacing: .04em;
+            transition: color .2s;
+        }
+
+        .footer-col a:hover {
+            color: var(--white);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-copy {
+            font-size: 1.06rem;
+            color: var(--gray);
+            font-weight: 300;
+            letter-spacing: .07em;
+        }
+
+        .footer-copy span {
+            color: var(--violet);
+        }
+
+        .float-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--violet);
+            color: var(--black);
+            padding: .85rem 1.8rem;
+            border-radius: 2px;
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: .94rem;
+            font-weight: 400;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            text-decoration: none;
+            z-index: 400;
+            box-shadow: 0 8px 32px rgba(184, 127, 255, .4);
+            transition: transform .2s, box-shadow .2s;
+        }
+
+        .float-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 48px rgba(184, 127, 255, .6);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity .65s ease, transform .65s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .services-section {
+            padding: 7rem 5rem;
+            background: var(--black);
+        }
+
+        .services-intro {
+            margin-bottom: 4rem;
+        }
+
+        .cat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+        }
+
+        .cat-card {
+            background: var(--card);
+            padding: 3.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: background .3s;
+        }
+
+        .cat-card:hover {
+            background: var(--card2);
+        }
+
+        .cat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--violet);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .5s ease;
+        }
+
+        .cat-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .cat-card.data-card {
+            grid-column: span 2;
+            background: linear-gradient(135deg, var(--card), #EAE8FF);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .cat-card-header {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .cat-icon {
+            width: 52px;
+            height: 52px;
+            min-width: 52px;
+            background: var(--vglow);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            transition: border-color .3s, background .3s;
+        }
+
+        .cat-card:hover .cat-icon {
+            border-color: rgba(184, 127, 255, .35);
+            background: rgba(184, 127, 255, .1);
+        }
+
+        .cat-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.35rem;
+            font-weight: 400;
+            letter-spacing: .03em;
+        }
+
+        .service-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin-bottom: 2rem;
+        }
+
+        .service-item {
+            display: flex;
+            align-items: center;
+            gap: .9rem;
+            padding: .75rem 0;
+            border-bottom: 1px solid rgba(184, 127, 255, .07);
+        }
+
+        .service-item:last-child {
+            border-bottom: none;
+        }
+
+        .cat-card:hover .service-item {
+            border-color: rgba(184, 127, 255, .12);
+        }
+
+        .si-dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: rgba(184, 127, 255, .5);
+            flex-shrink: 0;
+        }
+
+        .cat-card:hover .si-dot {
+            background: var(--violet);
+        }
+
+        .si-name {
+            font-size: 1.06rem;
+            font-weight: 300;
+            letter-spacing: .06em;
+            color: var(--white);
+        }
+
+        .si-desc {
+            font-size: 1rem;
+            color: var(--gray);
+            font-weight: 300;
+            margin-left: auto;
+            text-align: right;
+            letter-spacing: .03em;
+        }
+
+        .brands-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .5rem;
+            margin-top: .5rem;
+        }
+
+        .brand-pill {
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            color: rgba(184, 127, 255, .5);
+            border: 1px solid rgba(184, 127, 255, .15);
+            padding: .3rem .7rem;
+            border-radius: 1px;
+            transition: border-color .2s, color .2s;
+        }
+
+        .cat-card:hover .brand-pill {
+            border-color: rgba(184, 127, 255, .3);
+            color: rgba(184, 127, 255, .75);
+        }
+
+        .data-headline {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: clamp(1.4rem, 2.5vw, 2rem);
+            line-height: 1.25;
+            color: var(--white);
+        }
+
+        .data-headline span {
+            color: var(--violet);
+        }
+
+        .data-body {
+            font-size: 1.1rem;
+            color: var(--gray);
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .data-right {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .diag-strip {
+            background: var(--deep);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 3.5rem 5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .diag-strip::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 50%, rgba(184, 127, 255, .05) 0%, transparent 65%);
+            pointer-events: none;
+        }
+
+        .diag-left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .diag-icon {
+            width: 56px;
+            height: 56px;
+            min-width: 56px;
+            border: 1px solid var(--border);
+            background: var(--vglow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .diag-headline {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 400;
+            letter-spacing: .02em;
+            margin-bottom: .35rem;
+        }
+
+        .diag-sub {
+            font-size: 1.06rem;
+            color: var(--gray);
+            font-weight: 300;
+            letter-spacing: .05em;
+        }
+
+        @media(max-width:900px) {
+
+            nav,
+            nav.scrolled {
+                padding: 1rem 1.5rem !important;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                display: none !important;
+                position: fixed;
+                top: 61px;
+                left: 0;
+                right: 0;
+                width: 100%;
+                flex-direction: column;
+                align-items: flex-start;
+                background: rgba(245, 245, 240, .98);
+                backdrop-filter: blur(20px);
+                padding: 1.5rem 2rem;
+                gap: 1.2rem;
+                border-bottom: 1px solid var(--border);
+                z-index: 499;
+                margin: 0;
+            }
+
+            .nav-links.open {
+                display: flex !important;
+            }
+
+            .hamburger.open span:nth-child(1) {
+                transform: translateY(6.5px) rotate(45deg);
+            }
+
+            .hamburger.open span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.open span:nth-child(3) {
+                transform: translateY(-6.5px) rotate(-45deg);
+            }
+
+            .hero {
+                padding: 8rem 1.5rem 5rem;
+            }
+
+            footer {
+                padding: 3rem 1.5rem 2rem;
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .footer-top>div:first-child {
+                grid-column: span 2;
+            }
+
+            .services-section {
+                padding: 4rem 1.5rem;
+            }
+
+            .cat-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cat-card.data-card {
+                grid-column: span 1;
+                grid-template-columns: 1fr;
+            }
+
+            .diag-strip {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 2.5rem 1.5rem;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+    <nav id="nav">
+        <a href="index.html" class="nav-logo">
+            <svg width="28" height="16" viewBox="0 0 72 38" fill="none">
+                <polyline points="4,34 4,10 20,24 36,4 52,24 68,10 68,34" stroke="rgba(184,127,255,0.82)"
+                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                <line x1="4" y1="34" x2="68" y2="34" stroke="rgba(184,127,255,0.3)" stroke-width="1"
+                    stroke-linecap="round" />
+                <circle cx="36" cy="4" r="3.5" fill="rgba(220,190,255,1)" />
+                <circle cx="4" cy="10" r="2.2" fill="rgba(184,127,255,0.65)" />
+                <circle cx="68" cy="10" r="2.2" fill="rgba(184,127,255,0.65)" />
+            </svg>
+            <div class="nav-logo-text">NM<span>WIRELESS</span></div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="services.html" class="active">Services</a></li>
+            <li><a href="custom-cases.html">Custom Cases</a></li>
+            <li><a href="store.html">Store</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="booking.html" class="nav-book">Book a Repair</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" onclick="toggleMobile()">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-grid"></div>
+        <div class="hero-orb"></div>
+        <div class="hero-orb2"></div>
+        <div class="breadcrumb"><a href="index.html">Home</a><span class="breadcrumb-sep">›</span><span
+                class="breadcrumb-cur">Services</span></div>
+        <div class="hero-eyebrow">What We Do</div>
+        <h1 class="hero-title">Every Device.<br><em>Every Problem.</em></h1>
+        <p class="hero-sub">Professional repair for phones, laptops, consoles, and more. Walk in or book online — we
+            handle the rest.</p>
+    </section>
+
+    <section class="services-section">
+        <div class="services-intro reveal">
+            <div class="sec-label">Repair Services</div>
+            <h2 class="sec-title">What We Fix</h2>
+        </div>
+        <div class="cat-grid">
+            <div class="cat-card reveal">
+                <div class="cat-card-header">
+                    <div class="cat-icon">📱</div>
+                    <div class="cat-title">Phone Repair</div>
+                </div>
+                <div class="service-list">
+                    <div class="service-item">
+                        <div class="si-dot"></div>
+                        <div class="si-name">Screen Replacement</div>
+                        <div class="si-desc">All models</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="si-dot"></div>
+                        <div class="si-name">Battery Replacement</div>
+                        <div class="si-desc">OEM grade</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="si-dot"></div>
+                        <div class="si-name">Charging Port Repair</div>
+                        <div class="si-desc">USB-C · Lightning</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="si-dot"></div>
+                        <div class="si-name">Water Damage Recovery</div>
+                        <div class="si-desc">Deep clean</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="si-dot"></div>
+                        <div class="si-name">Camera Repair</div>
+                        <div class="si-desc">Front &amp; rear</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="si-dot"></div>
+                        <div class="si-name">Speaker &amp; Mic Fix</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="si-dot"></div>
+                        <div class="si-name">Back Glass Repair</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="si-dot"></div>
+                        <div class="si-name">Software &amp; Factory Restore</div>
+                    </div>
+                </div>
+                <div class="brands-row">
+                    <div class="brand-pill">iPhone</div>
+                    <div class="brand-pill">Samsung</div>
+                    <div class="brand-pill">Google Pixel</div>
+                    <div class="brand-pill">OnePlus</div>
+                    <div class="brand-pill">LG</div>
+                    <div class="brand-pill">Motorola</div>
+                </div>
+            </div>
+            <div class="cat-card reveal">
+                <div class="cat-card-header">
+                    <div class="cat-icon">💻</div>
+                    <div class="cat-title">Laptop Repair</div>
+                </div>
+                <div class="service-list">
+                    <div class="service-item">
+                        <div class="si-dot"></div>
+                        <div class="si-name">Screen Replacement</div>
+                        <div class="si-desc">LCD · OLED</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="si-dot"></div>
+                        <div class="si-name">Keyboard Repair</div>
+                        <div class="si-desc">Key &amp; full deck</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="si-dot"></div>
+                        <div class="si-name">Charging Port Fix</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="si-dot"></div>
+                        <div class="si-name">Virus &amp; Malware Removal</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="si-dot"></div>
+                        <div class="si-name">RAM &amp; Storage Upgrade</div>
+                        <div class="si-desc">SSD install</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="si-dot"></div>
+                        <div class="si-name">Motherboard Diagnostics</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="si-dot"></div>
+                        <div class="si-name">Fan &amp; Cooling Repair</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="si-dot"></div>
+                        <div class="si-name">OS Install &amp; Recovery</div>
+                        <div class="si-desc">Win · macOS</div>
+                    </div>
+                </div>
+                <div class="brands-row">
+                    <div class="brand-pill">MacBook</div>
+                    <div class="brand-pill">Dell</div>
+                    <div class="brand-pill">HP</div>
+                    <div class="brand-pill">Lenovo</div>
+                    <div class="brand-pill">ASUS</div>
+                    <div class="brand-pill">Surface</div>
+                </div>
+            </div>
+            <div class="cat-card reveal">
+                <div class="cat-card-header">
+                    <div class="cat-icon">🎮</div>
+                    <div class="cat-title">Console Repair</div>
+                </div>
+                <div class="service-list">
+                    <div class="service-item">
+                        <div class="si-dot"></div>
+                        <div class="si-name">HDMI Port Repair</div>
+                        <div class="si-desc">PS5 · Xbox</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="si-dot"></div>
+                        <div class="si-name">Disc Drive Fix</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="si-dot"></div>
+                        <div class="si-name">Overheating &amp; Fan Repair</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="si-dot"></div>
+                        <div class="si-name">Controller Repair</div>
+                        <div class="si-desc">Stick drift · buttons</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="si-dot"></div>
+                        <div class="si-name">Bluetooth &amp; WiFi Issues</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="si-dot"></div>
+                        <div class="si-name">Hard Drive Replacement</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="si-dot"></div>
+                        <div class="si-name">Software &amp; Firmware Issues</div>
+                    </div>
+                </div>
+                <div class="brands-row">
+                    <div class="brand-pill">PS5</div>
+                    <div class="brand-pill">PS4</div>
+                    <div class="brand-pill">Xbox Series X/S</div>
+                    <div class="brand-pill">Xbox One</div>
+                    <div class="brand-pill">Switch</div>
+                </div>
+            </div>
+            <div class="cat-card data-card reveal">
+                <div class="data-left">
+                    <div class="cat-card-header" style="margin-bottom:1.5rem;">
+                        <div class="cat-icon">💾</div>
+                        <div class="cat-title">Data Recovery</div>
+                    </div>
+                    <div class="service-list">
+                        <div class="service-item">
+                            <div class="si-dot"></div>
+                            <div class="si-name">Deleted Photos &amp; Videos</div>
+                        </div>
+                        <div class="service-item">
+                            <div class="si-dot"></div>
+                            <div class="si-name">Corrupted Drive Recovery</div>
+                        </div>
+                        <div class="service-item">
+                            <div class="si-dot"></div>
+                            <div class="si-name">Water Damaged Device</div>
+                        </div>
+                        <div class="service-item">
+                            <div class="si-dot"></div>
+                            <div class="si-name">Failed OS / Won't Boot</div>
+                        </div>
+                        <div class="service-item">
+                            <div class="si-dot"></div>
+                            <div class="si-name">USB &amp; SD Card Recovery</div>
+                        </div>
+                    </div>
+                    <div class="brands-row" style="margin-top:1rem;">
+                        <div class="brand-pill">Phones</div>
+                        <div class="brand-pill">Laptops</div>
+                        <div class="brand-pill">USB Drives</div>
+                        <div class="brand-pill">Hard Drives</div>
+                        <div class="brand-pill">SD Cards</div>
+                    </div>
+                </div>
+                <div class="data-right">
+                    <div class="data-headline">"Think your data is<br><span>gone? It's not.</span>"</div>
+                    <p class="data-body">Before you give up on those photos, documents, or contacts — bring it to us. We
+                        recover data from devices most people think are beyond saving.</p>
+                    <div><a href="booking.html" class="btn-primary">Book Data Recovery</a></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="diag-strip reveal">
+        <div class="diag-left">
+            <div class="diag-icon">🔍</div>
+            <div>
+                <div class="diag-headline">Free Diagnosis on Every Repair</div>
+                <div class="diag-sub">We assess your device and give you a clear quote before touching anything. No fix,
+                    no fee.</div>
+            </div>
+        </div>
+        <a href="booking.html" class="btn-primary" style="white-space:nowrap;flex-shrink:0;">Book a Repair</a>
+    </div>
+    <a href="booking.html" class="float-btn">Book Now</a>
+
+    <footer>
+        <div class="footer-top">
+            <div>
+                <a href="index.html" class="nav-logo">
+                    <svg width="26" height="15" viewBox="0 0 72 38" fill="none">
+                        <polyline points="4,34 4,10 20,24 36,4 52,24 68,10 68,34" stroke="rgba(184,127,255,0.75)"
+                            stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                        <line x1="4" y1="34" x2="68" y2="34" stroke="rgba(184,127,255,0.3)" stroke-width="1" />
+                        <circle cx="36" cy="4" r="3" fill="rgba(220,190,255,1)" />
+                        <circle cx="4" cy="10" r="2" fill="rgba(184,127,255,0.6)" />
+                        <circle cx="68" cy="10" r="2" fill="rgba(184,127,255,0.6)" />
+                    </svg>
+                    <div class="nav-logo-text">NM<span>WIRELESS</span></div>
+                </a>
+                <p class="footer-brand-desc">Brockville's premium tech repair studio. Phones, laptops, consoles — fixed
+                    fast, done right.</p>
+                <p class="footer-tagline">Your Device. Elevated.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="services.html">Phone Repair</a></li>
+                    <li><a href="services.html">Laptop Repair</a></li>
+                    <li><a href="services.html">Console Repair</a></li>
+                    <li><a href="services.html">Data Recovery</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Store</h4>
+                <ul>
+                    <li><a href="custom-cases.html">Custom Cases</a></li>
+                    <li><a href="store.html">Accessories</a></li>
+                    <li><a href="store.html">Screen Protectors</a></li>
+                    <li><a href="store.html">Chargers &amp; Cables</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="booking.html">Book a Repair</a></li>
+                    <li><a href="contact.html">Find Us</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-copy">© 2025 <span>NM Wireless</span>. All rights reserved. Brockville, ON.</div>
+            <div class="footer-copy"><span>Your Device. Elevated.</span></div>
+        </div>
+    </footer>
+    <script>
+        window.addEventListener('scroll', () => { const n = document.getElementById('nav'); if (n) n.classList.toggle('scrolled', scrollY > 60); });
+        function toggleMobile() { const links = document.querySelector('.nav-links'); const btn = document.getElementById('hamburger'); links.classList.toggle('open'); btn.classList.toggle('open', links.classList.contains('open')); }
+        document.querySelectorAll('.nav-links a').forEach(a => { a.addEventListener('click', () => { document.querySelector('.nav-links').classList.remove('open'); document.getElementById('hamburger').classList.remove('open'); }); });
+        const obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: .08 });
+        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    </script>
+</body>
+
+</html>
