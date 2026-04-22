@@ -14,19 +14,19 @@
         :root {
             --black: #F5F5F0; --deep: #EEEDE8; --card: #FFFFFF; --card2: #F0EFE9;
             --violet: #B87FFF; --vglow: rgba(184,127,255,0.12); --white: #1A1A18;
-            --gray: #6B6860; --border: rgba(120,80,180,0.18);
+            --gray: #3A3A36; --border: rgba(120,80,180,0.18);
         }
         body { background: var(--black); color: var(--white); font-family: 'Josefin Sans', sans-serif; overflow-x: hidden; }
 
         nav { position: fixed; top: 0; left: 0; right: 0; z-index: 500; padding: 1.2rem 3rem; display: flex; align-items: center; justify-content: space-between; gap: 2rem; background: rgba(245,245,240,0.92); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border); transition: padding .3s; }
         nav.scrolled { padding: .9rem 3rem; }
         .nav-logo { display: flex; align-items: center; gap: .7rem; text-decoration: none; }
-        .nav-logo-text { font-family: 'Playfair Display', serif; font-weight: 400; font-size: .85rem; letter-spacing: .12em; text-indent: .12em; color: var(--white); }
+        .nav-logo-text { font-family: 'Playfair Display', serif; font-weight: 400; font-size: 1.1rem; letter-spacing: .12em; text-indent: .12em; color: var(--white); }
         .nav-logo-text span { color: rgba(184,127,255,.65); }
         .nav-links { display: flex; gap: 1.6rem; list-style: none; align-items: center; }
-        .nav-links a { font-size: .6rem; font-weight: 200; letter-spacing: .18em; text-transform: uppercase; color: var(--gray); text-decoration: none; transition: color .2s; white-space: nowrap; }
+        .nav-links a { font-size: 1rem; font-weight: 300; letter-spacing: .18em; text-transform: uppercase; color: var(--gray); text-decoration: none; transition: color .2s; white-space: nowrap; }
         .nav-links a:hover, .nav-links a.active { color: var(--white); }
-        .nav-links .nav-book { background: transparent; border: 1px solid var(--border); color: var(--violet); padding: .48rem 1.1rem; font-size: .6rem; font-weight: 300; letter-spacing: .15em; text-transform: uppercase; text-decoration: none; border-radius: 2px; white-space: nowrap; transition: background .25s, color .25s, box-shadow .25s; }
+        .nav-links .nav-book { background: transparent; border: 1px solid var(--border); color: var(--violet); padding: .48rem 1.1rem; font-size: 1rem; font-weight: 300; letter-spacing: .15em; text-transform: uppercase; text-decoration: none; border-radius: 2px; white-space: nowrap; transition: background .25s, color .25s, box-shadow .25s; }
         .nav-links .nav-book:hover { background: var(--violet); color: var(--black); box-shadow: 0 0 28px rgba(184,127,255,.4); }
         .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; flex-shrink: 0; }
         .hamburger span { width: 22px; height: 1.5px; background: #1A1A18; display: block; transition: transform .3s, opacity .3s; }
@@ -37,15 +37,15 @@
         .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(120,80,180,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(120,80,180,.06) 1px, transparent 1px); background-size: 80px 80px; mask-image: radial-gradient(ellipse at 30% 40%, black 10%, transparent 70%); }
         @keyframes breathe { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.1)} }
         .breadcrumb { display: flex; align-items: center; gap: .6rem; margin-bottom: 2rem; animation: fadeUp .7s ease both; }
-        .breadcrumb a { font-size: .62rem; font-weight: 200; letter-spacing: .2em; text-transform: uppercase; color: var(--gray); text-decoration: none; transition: color .2s; }
+        .breadcrumb a { font-size: .92rem; font-weight: 300; letter-spacing: .2em; text-transform: uppercase; color: var(--gray); text-decoration: none; transition: color .2s; }
         .breadcrumb a:hover { color: var(--violet); }
-        .breadcrumb-sep { color: var(--border); font-size: .7rem; }
-        .breadcrumb-cur { font-size: .62rem; font-weight: 200; letter-spacing: .2em; text-transform: uppercase; color: var(--violet); }
-        .hero-eyebrow { font-size: .62rem; font-weight: 200; letter-spacing: .35em; text-transform: uppercase; color: var(--violet); margin-bottom: 1.4rem; display: flex; align-items: center; gap: .8rem; animation: fadeUp .7s .1s ease both; }
+        .breadcrumb-sep { color: var(--border); font-size: 1.06rem; }
+        .breadcrumb-cur { font-size: .92rem; font-weight: 300; letter-spacing: .2em; text-transform: uppercase; color: var(--violet); }
+        .hero-eyebrow { font-size: .92rem; font-weight: 300; letter-spacing: .35em; text-transform: uppercase; color: var(--violet); margin-bottom: 1.4rem; display: flex; align-items: center; gap: .8rem; animation: fadeUp .7s .1s ease both; }
         .hero-eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--violet); }
         .hero-title { font-family: 'Playfair Display', serif; font-weight: 400; font-size: clamp(2.8rem,6vw,6rem); line-height: .95; letter-spacing: .01em; margin-bottom: 1.6rem; animation: fadeUp .7s .2s ease both; }
         .hero-title em { font-style: italic; color: transparent; -webkit-text-stroke: 1px rgba(130,60,220,.7); }
-        .hero-sub { font-size: .92rem; font-weight: 200; color: #555250; max-width: 420px; line-height: 1.85; letter-spacing: .04em; animation: fadeUp .7s .3s ease both; }
+        .hero-sub { font-size: 1.06rem; font-weight: 300; color: #555250; max-width: 420px; line-height: 1.85; letter-spacing: .04em; animation: fadeUp .7s .3s ease both; }
         @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 
         .brand-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border); border: 1px solid var(--border); }
@@ -55,28 +55,28 @@
         .brand-card:hover { background: var(--card2); }
         .brand-card-icon { font-size: 2.8rem; line-height: 1; }
         .brand-card-name { font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 400; color: var(--white); letter-spacing: .02em; }
-        .brand-card-models { font-size: .62rem; font-weight: 200; letter-spacing: .2em; text-transform: uppercase; color: var(--violet); margin-top: -.4rem; }
-        .brand-card-desc { font-size: .88rem; color: var(--gray); font-weight: 200; line-height: 1.85; flex: 1; max-width: 340px; }
-        .brand-card-link { font-size: .65rem; font-weight: 300; letter-spacing: .22em; text-transform: uppercase; color: var(--white); display: flex; align-items: center; gap: .6rem; margin-top: .5rem; transition: gap .2s; }
+        .brand-card-models { font-size: .92rem; font-weight: 300; letter-spacing: .2em; text-transform: uppercase; color: var(--violet); margin-top: -.4rem; }
+        .brand-card-desc { font-size: 1.04rem; color: var(--gray); font-weight: 300; line-height: 1.85; flex: 1; max-width: 340px; }
+        .brand-card-link { font-size: 1rem; font-weight: 300; letter-spacing: .22em; text-transform: uppercase; color: var(--white); display: flex; align-items: center; gap: .6rem; margin-top: .5rem; transition: gap .2s; }
         .brand-card:hover .brand-card-link { gap: 1.1rem; }
         .brand-card-link::after { content: '→'; color: var(--violet); }
         .brand-card-glow { position: absolute; right: -40px; bottom: -40px; width: 220px; height: 220px; background: radial-gradient(ellipse, rgba(184,127,255,.1) 0%, transparent 70%); pointer-events: none; }
 
         .reveal { opacity: 0; transform: translateY(24px); transition: opacity .65s ease, transform .65s ease; }
         .reveal.visible { opacity: 1; transform: translateY(0); }
-        .float-btn { position: fixed; bottom: 2rem; right: 2rem; background: var(--violet); color: var(--black); padding: .85rem 1.8rem; border-radius: 2px; font-family: 'Josefin Sans', sans-serif; font-size: .68rem; font-weight: 400; letter-spacing: .18em; text-transform: uppercase; text-decoration: none; z-index: 400; box-shadow: 0 8px 32px rgba(184,127,255,.4); transition: transform .2s, box-shadow .2s; }
+        .float-btn { position: fixed; bottom: 2rem; right: 2rem; background: var(--violet); color: var(--black); padding: .85rem 1.8rem; border-radius: 2px; font-family: 'Josefin Sans', sans-serif; font-size: .94rem; font-weight: 400; letter-spacing: .18em; text-transform: uppercase; text-decoration: none; z-index: 400; box-shadow: 0 8px 32px rgba(184,127,255,.4); transition: transform .2s, box-shadow .2s; }
         .float-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 48px rgba(184,127,255,.6); }
 
         footer { background: #E5E4DF; border-top: 1px solid var(--border); padding: 4rem 5rem 2.5rem; }
         .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
-        .footer-brand-desc { font-size: .84rem; color: var(--gray); font-weight: 200; line-height: 1.8; margin-top: .9rem; max-width: 240px; }
-        .footer-tagline { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: .9rem; color: rgba(184,127,255,.45); margin-top: .5rem; }
-        .footer-col h4 { font-size: .62rem; font-weight: 300; letter-spacing: .25em; text-transform: uppercase; color: var(--violet); margin-bottom: 1.3rem; }
+        .footer-brand-desc { font-size: 1.02rem; color: var(--gray); font-weight: 300; line-height: 1.8; margin-top: .9rem; max-width: 240px; }
+        .footer-tagline { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.05rem; color: rgba(184,127,255,.45); margin-top: .5rem; }
+        .footer-col h4 { font-size: .92rem; font-weight: 300; letter-spacing: .25em; text-transform: uppercase; color: var(--violet); margin-bottom: 1.3rem; }
         .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .65rem; }
-        .footer-col a { color: var(--gray); text-decoration: none; font-size: .84rem; font-weight: 200; letter-spacing: .04em; transition: color .2s; }
+        .footer-col a { color: var(--gray); text-decoration: none; font-size: 1.02rem; font-weight: 300; letter-spacing: .04em; transition: color .2s; }
         .footer-col a:hover { color: var(--white); }
         .footer-bottom { border-top: 1px solid var(--border); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
-        .footer-copy { font-size: .7rem; color: var(--gray); font-weight: 200; letter-spacing: .07em; }
+        .footer-copy { font-size: 1.06rem; color: var(--gray); font-weight: 300; letter-spacing: .07em; }
         .footer-copy span { color: var(--violet); }
 
         @media(max-width:900px) {
