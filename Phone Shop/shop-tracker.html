@@ -111,6 +111,27 @@
     .action-btn.sell-btn:hover{border-color:var(--green);color:var(--green)}
     .empty-state{padding:3rem;text-align:center;color:var(--gray);font-size:.78rem;letter-spacing:.08em}
 
+    /* SEARCH */
+    .search-bar{background:var(--surface2);border:1px solid var(--border);padding:.5rem 1rem;color:var(--white);font-family:var(--font-mono);font-size:.78rem;outline:none;width:240px;max-width:100%;transition:border-color .2s}
+    .search-bar:focus{border-color:var(--violet)}
+    .search-bar::placeholder{color:#555}
+
+    /* GLOBAL SEARCH */
+    .gsearch-wrap{padding:.75rem 2rem;background:var(--surface2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.6rem;position:sticky;top:57px;z-index:90}
+    .gsearch-input{flex:1;max-width:680px;background:var(--surface);border:1px solid var(--border);padding:.65rem 1rem;color:var(--white);font-family:var(--font-mono);font-size:.85rem;outline:none;transition:border-color .2s}
+    .gsearch-input:focus{border-color:var(--violet)}
+    .gsearch-input::placeholder{color:#444}
+    .gsearch-clear{background:none;border:none;color:var(--gray);font-size:1.1rem;cursor:pointer;line-height:1;padding:.2rem .5rem;display:none}
+    .gsearch-clear:hover{color:var(--white)}
+    .gsearch-count{font-size:.62rem;color:var(--gray);letter-spacing:.08em;white-space:nowrap}
+    .gsearch-results{background:var(--surface);border-bottom:2px solid var(--violet-border);max-height:420px;overflow-y:auto;display:none}
+    .gsr-item{padding:.75rem 2rem;display:flex;align-items:center;gap:.9rem;border-bottom:1px solid rgba(255,255,255,.04);cursor:pointer;transition:background .15s}
+    .gsr-item:hover{background:var(--violet-dim)}
+    .gsr-name{flex:1;font-size:.82rem;font-weight:700;min-width:0}
+    .gsr-stock{font-size:.75rem;white-space:nowrap}
+    .gsr-price{font-size:.72rem;color:var(--violet);white-space:nowrap}
+    .gsr-none{padding:1.2rem 2rem;color:var(--gray);font-size:.78rem}
+
     /* MODAL */
     .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:500;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
     .modal-bg.open{display:flex}
@@ -147,6 +168,23 @@
     .bar-fill.green{background:var(--green)}
     .bar-fill.red{background:var(--red)}
     .bar-val{font-size:.65rem;color:var(--white);width:80px;text-align:right;flex-shrink:0}
+
+    /* QUICK SELL */
+    .qs-modal{background:var(--surface);border:1px solid var(--violet-border);padding:1.8rem;width:400px;max-width:96vw}
+    .qs-item{font-family:var(--font-head);font-size:1rem;font-weight:700;margin-bottom:.3rem;color:var(--white)}
+    .qs-stock{font-size:.65rem;color:var(--gray);letter-spacing:.1em;margin-bottom:1.4rem}
+    .qs-row{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:1rem}
+    .qs-field{display:flex;flex-direction:column;gap:.35rem}
+    .qs-lbl{font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gray)}
+    .qs-input{background:var(--surface2);border:1px solid var(--border);padding:.7rem .9rem;color:var(--white);font-family:var(--font-mono);font-size:.9rem;outline:none;width:100%;transition:border-color .2s}
+    .qs-input:focus{border-color:var(--green)}
+    .qs-profit{font-size:.75rem;color:var(--gray);margin-bottom:1.2rem;min-height:1.1em}
+    .qs-profit.pos{color:var(--green)}
+    .qs-profit.neg{color:var(--red)}
+    .qs-actions{display:flex;gap:.7rem;justify-content:flex-end}
+    .qs-cancel{background:none;border:1px solid var(--border);color:var(--gray);padding:.65rem 1.2rem;font-family:var(--font-mono);font-size:.72rem;cursor:pointer}
+    .qs-save{background:var(--green);color:#000;border:none;padding:.65rem 1.6rem;font-family:var(--font-head);font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:opacity .2s}
+    .qs-save:hover{opacity:.85}
 
     /* EXPENSE CATEGORY BADGES */
     .badge-equipment{background:rgba(56,189,248,.12);color:var(--blue)}
@@ -211,6 +249,14 @@
     <div class="tab" onclick="switchTab('expenses',this)">Shop Expenses</div>
   </div>
 
+  <!-- GLOBAL SEARCH -->
+  <div class="gsearch-wrap">
+    <input type="text" class="gsearch-input" id="gsearch" placeholder="Search anything — iPhone 17 Pro Max, S26 Ultra, screen protector..." autocomplete="off" oninput="globalSearch(this.value)" onkeydown="if(event.key==='Escape')clearGSearch()">
+    <button class="gsearch-clear" id="gsearch-clear" onclick="clearGSearch()">✕</button>
+    <span class="gsearch-count" id="gsearch-count"></span>
+  </div>
+  <div class="gsearch-results" id="gsearch-results"></div>
+
   <!-- DASHBOARD -->
   <div class="page active" id="page-dashboard">
     <div class="stats-row">
@@ -262,6 +308,7 @@
   <div class="page" id="page-buy">
     <div class="sec-header">
       <div class="sec-title">Purchase Log</div>
+      <input type="text" class="search-bar" id="buy-search" placeholder="Search purchases..." oninput="renderBuys()">
       <button class="add-btn" onclick="openBuyModal()">+ Add Purchase</button>
     </div>
     <div class="table-wrap">
@@ -290,6 +337,7 @@
   <div class="page" id="page-inventory">
     <div class="sec-header">
       <div class="sec-title">Current Inventory</div>
+      <input type="text" class="search-bar" id="inv-search" placeholder="Search inventory..." oninput="renderInventory()">
       <button class="add-btn" onclick="openBuyModal()">+ Add Item</button>
     </div>
     <div class="table-wrap">
@@ -333,6 +381,33 @@
         <thead><tr><th>Description</th><th>Category</th><th>Amount</th><th>Date</th><th>Notes</th><th>Actions</th></tr></thead>
         <tbody id="exp-body"></tbody>
       </table>
+    </div>
+  </div>
+</div>
+
+<!-- QUICK SELL MODAL -->
+<div class="modal-bg" id="modal-qs">
+  <div class="qs-modal">
+    <div class="qs-item" id="qs-name"></div>
+    <div class="qs-stock" id="qs-stock"></div>
+    <div class="qs-row">
+      <div class="qs-field">
+        <label class="qs-lbl">Qty Selling</label>
+        <input type="number" class="qs-input" id="qs-qty" value="1" min="1" oninput="updateQsProfit()">
+      </div>
+      <div class="qs-field">
+        <label class="qs-lbl">Sell Price Each ($)</label>
+        <input type="number" class="qs-input" id="qs-price" placeholder="0.00" step="0.01" oninput="updateQsProfit()">
+      </div>
+    </div>
+    <div class="qs-field" style="margin-bottom:.8rem">
+      <label class="qs-lbl">Sold To (optional)</label>
+      <input type="text" class="qs-input" id="qs-to" placeholder="Customer name or notes">
+    </div>
+    <div class="qs-profit" id="qs-profit"></div>
+    <div class="qs-actions">
+      <button class="qs-cancel" onclick="document.getElementById('modal-qs').classList.remove('open')">Cancel</button>
+      <button class="qs-save" onclick="saveQuickSell()">✓ Sell</button>
     </div>
   </div>
 </div>
@@ -547,14 +622,20 @@ function importBackup() {
     reader.onload = ev => {
       try {
         const d = JSON.parse(ev.target.result);
-        const msg = `Replace ALL current data?\n\n${(d.buys||[]).length} purchases  •  ${(d.sells||[]).length} sales  •  ${(d.expenses||[]).length} expenses\n\nExported: ${d.exported||'unknown'}`;
-        if (confirm(msg)) {
+        const info = `${(d.buys||[]).length} purchases  •  ${(d.sells||[]).length} sales  •  ${(d.expenses||[]).length} expenses\nExported: ${d.exported||'unknown'}`;
+        const choice = confirm(`MERGE backup into existing data?\n\n${info}\n\nOK = MERGE (adds to current data)\nCancel = REPLACE (wipes everything)`);
+        if (choice) {
+          buys     = [...buys,     ...(d.buys     || [])];
+          sells    = [...sells,    ...(d.sells    || [])];
+          expenses = [...expenses, ...(d.expenses || [])];
+          saveData(); renderAll();
+          alert('✓ Merged successfully!');
+        } else if (confirm(`REPLACE all current data with backup?\n\n${info}`)) {
           buys     = d.buys     || [];
           sells    = d.sells    || [];
           expenses = d.expenses || [];
-          saveData();
-          renderAll();
-          alert('✓ Data restored successfully!');
+          saveData(); renderAll();
+          alert('✓ Data replaced successfully!');
         }
       } catch { alert('Invalid backup file.'); }
     };
@@ -709,6 +790,71 @@ function init() {
   renderAll();
 }
 
+// ── GLOBAL SEARCH ──
+function globalSearch(val) {
+  const q = (val||'').toLowerCase().trim();
+  const clearBtn = document.getElementById('gsearch-clear');
+  const results  = document.getElementById('gsearch-results');
+  const count    = document.getElementById('gsearch-count');
+  clearBtn.style.display = q ? 'block' : 'none';
+  if (!q || q.length < 2) { results.style.display='none'; count.textContent=''; return; }
+
+  const sqm = getSoldQtyMap();
+  const words = q.split(/\s+/);
+  const matches = buys.filter(b => {
+    const n = (b.name||'').toLowerCase();
+    return words.every(w => n.includes(w));
+  });
+
+  count.textContent = matches.length ? matches.length + ' result' + (matches.length>1?'s':'') : '';
+
+  if (!matches.length) {
+    results.innerHTML = `<div class="gsr-none">No results for "<strong>${val}</strong>" — try fewer words</div>`;
+    results.style.display = 'block'; return;
+  }
+
+  const sqmLocal = sqm;
+  results.innerHTML = matches.slice(0,40).map(b => {
+    const bq=parseInt(b.qty)||1, sq=sqmLocal[b.id]||0, rem=bq-sq;
+    const inStock = rem > 0;
+    return `<div class="gsr-item" onclick="gotoItem('${b.id}','${val.replace(/'/g,"\\'")}')">
+      <div class="gsr-name">${b.name}</div>
+      ${catBadge(b.cat)}
+      <div class="gsr-stock" style="color:${inStock?'var(--green)':'var(--red)'}">
+        ${inStock ? rem+' in stock' : 'Sold out'}
+      </div>
+      ${b.price>0?`<div class="gsr-price">${fmt(b.price)} ea</div>`:''}
+    </div>`;
+  }).join('') + (matches.length>40?`<div class="gsr-none" style="text-align:center">${matches.length-40} more — type more to narrow down</div>`:'');
+  results.style.display = 'block';
+}
+
+function clearGSearch() {
+  document.getElementById('gsearch').value = '';
+  document.getElementById('gsearch-results').style.display = 'none';
+  document.getElementById('gsearch-clear').style.display = 'none';
+  document.getElementById('gsearch-count').textContent = '';
+}
+
+function gotoItem(id, term) {
+  clearGSearch();
+  const invTabEl = document.querySelectorAll('.tab')[3];
+  switchTab('inventory', invTabEl);
+  document.getElementById('inv-search').value = term;
+  renderInventory();
+  setTimeout(() => {
+    const rows = document.querySelectorAll('#inv-body tr');
+    rows.forEach(r => {
+      if (r.querySelector('button[onclick*="'+id+'"]')) {
+        r.scrollIntoView({behavior:'smooth', block:'center'});
+        r.style.transition = 'background .3s';
+        r.style.background = 'rgba(184,127,255,.2)';
+        setTimeout(() => r.style.background = '', 2500);
+      }
+    });
+  }, 80);
+}
+
 // ── TABS ──
 function switchTab(tab, el) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -809,8 +955,11 @@ function renderRecentSales() {
 // ── RENDER BUYS ──
 function renderBuys() {
   const tbody = document.getElementById('buy-body');
-  if (!buys.length) { tbody.innerHTML=`<tr><td colspan="9" class="empty-state">No purchases yet — add your first item</td></tr>`; return; }
-  tbody.innerHTML = [...buys].reverse().map(b => {
+  const q = (document.getElementById('buy-search')?.value||'').toLowerCase().trim();
+  let list = [...buys].reverse();
+  if (q) list = list.filter(b=>(b.name||'').toLowerCase().includes(q)||(b.cat||'').toLowerCase().includes(q)||(b.imei||'').toLowerCase().includes(q)||(b.from||'').toLowerCase().includes(q));
+  if (!list.length) { tbody.innerHTML=`<tr><td colspan="9" class="empty-state">${buys.length&&q?'No results for "'+q+'"':'No purchases yet — add your first item'}</td></tr>`; return; }
+  tbody.innerHTML = list.map(b => {
     const q=parseInt(b.qty)||1, total=parseFloat(b.price||0)*q;
     return `<tr>
       <td style="font-weight:700">${b.name}</td>
@@ -857,8 +1006,11 @@ function renderSells() {
 function renderInventory() {
   const sqm = getSoldQtyMap();
   const tbody = document.getElementById('inv-body');
-  if (!buys.length) { tbody.innerHTML=`<tr><td colspan="9" class="empty-state">No items yet</td></tr>`; return; }
-  tbody.innerHTML = [...buys].reverse().map(b => {
+  const q = (document.getElementById('inv-search')?.value||'').toLowerCase().trim();
+  let list = [...buys].reverse();
+  if (q) list = list.filter(b=>(b.name||'').toLowerCase().includes(q)||(b.cat||'').toLowerCase().includes(q)||(b.imei||'').toLowerCase().includes(q));
+  if (!list.length) { tbody.innerHTML=`<tr><td colspan="9" class="empty-state">${buys.length&&q?'No results for "'+q+'"':'No items yet'}</td></tr>`; return; }
+  tbody.innerHTML = list.map(b => {
     const bq=parseInt(b.qty)||1, sq=sqm[b.id]||0, rem=bq-sq, sold=rem<=0;
     const days = b.date ? Math.floor((new Date()-new Date(b.date))/(1000*60*60*24)) : '—';
     return `<tr>
@@ -940,9 +1092,59 @@ function fillSellItem() {
   if (item.asking) document.getElementById('s-sold').value = item.asking;
 }
 
+let qsBuyId = null, qsMaxQty = 1, qsBuyPrice = 0;
+
 function quickSell(id, maxQty) {
-  openSellModal();
-  setTimeout(() => { document.getElementById('s-item-select').value=id; fillSellItem(); }, 80);
+  const item = buys.find(b => b.id === id);
+  if (!item) return;
+  qsBuyId    = id;
+  qsMaxQty   = maxQty;
+  qsBuyPrice = parseFloat(item.price || 0);
+  document.getElementById('qs-name').textContent  = item.name;
+  document.getElementById('qs-stock').textContent = maxQty + ' in stock — enter how many you\'re selling';
+  document.getElementById('qs-qty').value   = 1;
+  document.getElementById('qs-qty').max     = maxQty;
+  document.getElementById('qs-price').value = item.asking > 0 ? item.asking : '';
+  document.getElementById('qs-to').value    = '';
+  updateQsProfit();
+  document.getElementById('modal-qs').classList.add('open');
+  setTimeout(() => document.getElementById('qs-qty').focus(), 80);
+}
+
+function updateQsProfit() {
+  const qty   = parseInt(document.getElementById('qs-qty').value) || 0;
+  const price = parseFloat(document.getElementById('qs-price').value) || 0;
+  const el    = document.getElementById('qs-profit');
+  if (!price) { el.textContent = ''; el.className = 'qs-profit'; return; }
+  const profit = (price - qsBuyPrice) * qty;
+  const total  = price * qty;
+  el.className = 'qs-profit ' + (profit >= 0 ? 'pos' : 'neg');
+  el.textContent = `Total: $${total.toFixed(2)}  •  Profit: ${profit >= 0 ? '+' : ''}$${profit.toFixed(2)} (${qty} × $${(price - qsBuyPrice).toFixed(2)})`;
+}
+
+function saveQuickSell() {
+  const qty   = parseInt(document.getElementById('qs-qty').value) || 1;
+  const price = parseFloat(document.getElementById('qs-price').value);
+  const to    = document.getElementById('qs-to').value.trim();
+  if (!price && price !== 0) { alert('Enter a sell price'); return; }
+  if (qty < 1) { alert('Qty must be at least 1'); return; }
+  if (qty > qsMaxQty) { alert('Only ' + qsMaxQty + ' in stock'); return; }
+  const item = buys.find(b => b.id === qsBuyId);
+  sells.push({
+    id:     Date.now().toString(),
+    buyId:  qsBuyId,
+    name:   item ? item.name : '',
+    cat:    item ? item.cat  : 'Accessory',
+    qty,
+    bought: qsBuyPrice,
+    sold:   price,
+    date:   new Date().toISOString().split('T')[0],
+    to:     to || '',
+    notes:  ''
+  });
+  saveData();
+  renderAll();
+  document.getElementById('modal-qs').classList.remove('open');
 }
 
 // ── MODALS ──
